@@ -1,17 +1,9 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0" version="26.2.5">
   <diagram name="Page-1" id="cnNyso5UrPQmNNNywSUz">
-    <mxGraphModel dx="1577" dy="1568" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2140" dy="1867" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-17" target="EXF6hBYinvzkw5YrOlWF-24" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-37" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;TODO&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;date, region, url, streams&lt;/div&gt;&lt;div&gt;filter chart = &quot;top200&quot;&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-26" vertex="1" connectable="0">
-          <mxGeometry x="-0.4098" y="1" relative="1" as="geometry">
-            <mxPoint x="25" y="-29" as="offset" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="9T9FECJhJkGeZcrZyAYb-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="EXF6hBYinvzkw5YrOlWF-17" target="9T9FECJhJkGeZcrZyAYb-23">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-249.99999999999977" y="200.00000000000023" as="targetPoint" />
@@ -83,18 +75,18 @@
         <mxCell id="EXF6hBYinvzkw5YrOlWF-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-24" target="EXF6hBYinvzkw5YrOlWF-30" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-38" value="TODO&amp;nbsp;&lt;div&gt;date, region,&lt;/div&gt;&lt;div&gt;artist, streams&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-35" vertex="1" connectable="0">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-38" value="region, date, artist_id, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-35" vertex="1" connectable="0">
           <mxGeometry x="-0.2324" y="-1" relative="1" as="geometry">
-            <mxPoint x="4" y="-21" as="offset" />
+            <mxPoint x="4" y="-51" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-24" value="TODO (1)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-24" value="charts_artists" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
           <mxGeometry x="360" y="40" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.875;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-28" target="EXF6hBYinvzkw5YrOlWF-30" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-36" value="df[&quot;genre&quot;] = get_genres_by_artists(df[&quot;artists&quot;]).genres" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-34" vertex="1" connectable="0">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-36" value="artist_id, genre" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-34" vertex="1" connectable="0">
           <mxGeometry x="-0.7037" y="2" relative="1" as="geometry">
             <mxPoint x="74" y="-18" as="offset" />
           </mxGeometry>
@@ -108,7 +100,7 @@
             <mxPoint x="419.0769230769233" y="40.00000000000023" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-33" value="df[&quot;artists&quot;] = get_track_by_id(df[&quot;url&quot;]).artists" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-32" vertex="1" connectable="0">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-33" value="track_id, artist_id" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-32" vertex="1" connectable="0">
           <mxGeometry x="-0.4241" relative="1" as="geometry">
             <mxPoint x="55" y="-20" as="offset" />
           </mxGeometry>
@@ -116,15 +108,15 @@
         <mxCell id="EXF6hBYinvzkw5YrOlWF-29" value="&lt;div&gt;&lt;b&gt;Spotify Web API (Track)&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=JetBrains+Mono&quot; face=&quot;JetBrains Mono&quot;&gt;&lt;span data-encore-id=&quot;type&quot; class=&quot;Type__TypeElement-sc-goli3j-0 eyOwjh sc-5af7b528-1 eWezdH&quot;&gt;api.spotify.com&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="20" y="-80" width="220" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-62" target="EXF6hBYinvzkw5YrOlWF-22" edge="1">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="9T9FECJhJkGeZcrZyAYb-36" target="EXF6hBYinvzkw5YrOlWF-22" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-66" value="TODO&amp;nbsp;&lt;div&gt;date, region&lt;/div&gt;&lt;div&gt;obliczone popularności&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-45" vertex="1" connectable="0">
-          <mxGeometry x="-0.3965" y="-2" relative="1" as="geometry">
-            <mxPoint x="72" y="8" as="offset" />
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-40" value="region, date, pop, rap, rock, edm, hip hop, trap latino, reggaeton, electropop, dance pop, pop rap, musica mexicana, trap, modern rock, classic rock, uk pop, k-pop, tropical house, melodic rap, canadian pop, modern bollywood" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EXF6hBYinvzkw5YrOlWF-45">
+          <mxGeometry x="-0.2406" y="-1" relative="1" as="geometry">
+            <mxPoint x="586" y="-4" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-30" value="TODO (2)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-30" value="charts_genres" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
           <mxGeometry x="600" y="40" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="EXF6hBYinvzkw5YrOlWF-42" edge="1">
@@ -133,6 +125,28 @@
         <mxCell id="EXF6hBYinvzkw5YrOlWF-44" value="region,&amp;nbsp;date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-43" vertex="1" connectable="0">
           <mxGeometry x="-0.0961" y="-5" relative="1" as="geometry">
             <mxPoint x="2" y="-25" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="9T9FECJhJkGeZcrZyAYb-36">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="130" />
+              <mxPoint x="1050" y="130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="EXF6hBYinvzkw5YrOlWF-22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="340" />
+              <mxPoint x="780" y="340" />
+              <mxPoint x="780" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-42" value="region, date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-41">
+          <mxGeometry x="-0.2933" y="5" relative="1" as="geometry">
+            <mxPoint x="25" y="-15" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-39" value="&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=JetBrains+Mono&quot; face=&quot;JetBrains Mono&quot;&gt;charts_daily_sum&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -194,13 +208,13 @@
             <Array as="points" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-65" value="&lt;div&gt;Todo&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;date, region, genre&lt;/div&gt;&lt;div&gt;filtr: genre wspierane&lt;/div&gt;&lt;div&gt;agregacja: genre&lt;/div&gt;&lt;div&gt;obliczona: suma_dla_genre&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-64" vertex="1" connectable="0">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-65" value="region, date, genre, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-64" vertex="1" connectable="0">
           <mxGeometry x="-0.6087" y="2" relative="1" as="geometry">
             <mxPoint x="65" y="-38" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-62" value="TODO (8)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="990" y="50" width="120" height="60" as="geometry" />
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-62" value="charts_daily_genres" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
+          <mxGeometry x="990" y="50" width="160" height="60" as="geometry" />
         </mxCell>
         <mxCell id="9T9FECJhJkGeZcrZyAYb-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="9T9FECJhJkGeZcrZyAYb-23" target="EXF6hBYinvzkw5YrOlWF-39">
           <mxGeometry relative="1" as="geometry" />
@@ -208,6 +222,14 @@
         <mxCell id="9T9FECJhJkGeZcrZyAYb-28" value="region, date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-27">
           <mxGeometry x="-0.521" y="-6" relative="1" as="geometry">
             <mxPoint x="41" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="9T9FECJhJkGeZcrZyAYb-23" target="EXF6hBYinvzkw5YrOlWF-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-35" value="region, date, track_id, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-34">
+          <mxGeometry x="-0.064" y="3" relative="1" as="geometry">
+            <mxPoint y="-17" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="9T9FECJhJkGeZcrZyAYb-23" value="&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=JetBrains+Mono&quot; face=&quot;JetBrains Mono&quot;&gt;charts_fmt&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -223,6 +245,20 @@
           <mxGeometry x="-0.4461" relative="1" as="geometry">
             <mxPoint x="60" y="-15" as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="EXF6hBYinvzkw5YrOlWF-62" target="9T9FECJhJkGeZcrZyAYb-36">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1070" y="110" as="sourcePoint" />
+            <mxPoint x="1020" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-39" value="region, date, pop, rap, rock, edm, hip hop, trap latino, reggaeton, electropop, dance pop, pop rap, musica mexicana, trap, modern rock, classic rock, uk pop, k-pop, tropical house, melodic rap, canadian pop, modern bollywood" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-38">
+          <mxGeometry x="-0.3965" y="-2" relative="1" as="geometry">
+            <mxPoint x="572" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-36" value="charts_genre_popularity" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="300" width="190" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
