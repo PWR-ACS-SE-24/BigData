@@ -1,87 +1,93 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0" version="26.2.5">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" version="26.2.8">
   <diagram name="Page-1" id="cnNyso5UrPQmNNNywSUz">
-    <mxGraphModel dx="2140" dy="1867" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3423" dy="2582" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="EXF6hBYinvzkw5YrOlWF-17" target="9T9FECJhJkGeZcrZyAYb-23">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-17" target="9T9FECJhJkGeZcrZyAYb-23" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-249.99999999999977" y="200.00000000000023" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="-170" y="260" />
+              <mxPoint x="-250" y="30" />
+              <mxPoint x="-250" y="30" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-26" value="region, date, url, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-24">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-26" value="region, date, url, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="9T9FECJhJkGeZcrZyAYb-24" vertex="1" connectable="0">
           <mxGeometry x="0.0262" y="-3" relative="1" as="geometry">
-            <mxPoint x="-22" y="-12" as="offset" />
+            <mxPoint x="-7" y="-12" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-17" value="&lt;div&gt;&lt;b&gt;Spotify Charts&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=JetBrains+Mono&quot; face=&quot;JetBrains Mono&quot;&gt;charts.csv&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-300" y="50" width="200" height="60" as="geometry" />
+          <mxGeometry x="-470" width="200" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-19" target="EXF6hBYinvzkw5YrOlWF-23" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-19" target="EXF6hBYinvzkw5YrOlWF-23" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-57" value="&lt;div&gt;station_id, date, avg_temp_c, precipitation_mm&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-54" vertex="1" connectable="0">
           <mxGeometry x="-0.5576" y="-3" relative="1" as="geometry">
-            <mxPoint x="105" y="-33" as="offset" />
+            <mxPoint x="64" y="-13" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-19" value="&lt;div&gt;&lt;b&gt;The Weather Dataset (Weather)&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font face=&quot;JetBrains Mono&quot;&gt;daily_weather.parquet&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="30" y="370" width="200" height="60" as="geometry" />
+          <mxGeometry x="-470" y="480" width="200" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-20" target="EXF6hBYinvzkw5YrOlWF-23" edge="1">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-20" target="EXF6hBYinvzkw5YrOlWF-23" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="230" y="530" />
-              <mxPoint x="400" y="530" />
+              <mxPoint x="60" y="630" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-56" value="station_id, country" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-55" vertex="1" connectable="0">
           <mxGeometry x="0.0278" y="1" relative="1" as="geometry">
-            <mxPoint x="-23" y="11" as="offset" />
+            <mxPoint x="-76" y="-9" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-20" value="&lt;div&gt;&lt;b&gt;The Weather Dataset (Cities)&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font face=&quot;JetBrains Mono&quot;&gt;cities.csv&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="30" y="490" width="200" height="60" as="geometry" />
+          <mxGeometry x="-470" y="600" width="200" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-21" target="EXF6hBYinvzkw5YrOlWF-59" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-67" value="CountryName, IndicatorCode, 2016, 2017, 2018, 2019, 2020, 2021" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-60" vertex="1" connectable="0">
           <mxGeometry x="-0.2455" y="-4" relative="1" as="geometry">
-            <mxPoint x="47" y="36" as="offset" />
+            <mxPoint x="40" y="-14" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-21" value="&lt;div&gt;&lt;b&gt;World Development Indicators&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font face=&quot;JetBrains Mono&quot;&gt;WDIData.csv&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="30" y="590" width="200" height="60" as="geometry" />
+          <mxGeometry x="-470" y="730" width="200" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-22" value="&lt;b&gt;output&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
-          <mxGeometry x="920" y="450" width="200" height="60" as="geometry" />
+          <mxGeometry x="790" y="320.23" width="200" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-23" target="EXF6hBYinvzkw5YrOlWF-22" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-23" target="EXF6hBYinvzkw5YrOlWF-22" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="890" y="510" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-71" value="country, date, temperature_c, precipitation_mm" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-58" vertex="1" connectable="0">
           <mxGeometry x="-0.2789" y="3" relative="1" as="geometry">
-            <mxPoint x="27" y="-17" as="offset" />
+            <mxPoint x="84" y="-7" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-23" value="daily_country_weather" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
-          <mxGeometry x="320" y="430" width="170" height="60" as="geometry" />
+          <mxGeometry x="-20" y="480" width="170" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-24" target="EXF6hBYinvzkw5YrOlWF-30" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-38" value="region, date, artist_id, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-35" vertex="1" connectable="0">
           <mxGeometry x="-0.2324" y="-1" relative="1" as="geometry">
-            <mxPoint x="4" y="-51" as="offset" />
+            <mxPoint x="17" y="-11" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-24" value="charts_artists" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
-          <mxGeometry x="360" y="40" width="120" height="60" as="geometry" />
+          <mxGeometry x="190" width="150" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.875;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-28" target="EXF6hBYinvzkw5YrOlWF-30" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -92,9 +98,9 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-28" value="&lt;div&gt;&lt;b&gt;Spotify Web API (Artist)&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=JetBrains+Mono&quot; face=&quot;JetBrains Mono&quot;&gt;&lt;span data-encore-id=&quot;type&quot; class=&quot;Type__TypeElement-sc-goli3j-0 eyOwjh sc-5af7b528-1 eWezdH&quot;&gt;api.spotify.com&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="20" y="-200" width="220" height="80" as="geometry" />
+          <mxGeometry x="-480" y="-240" width="220" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.875;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.875;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1" target="EXF6hBYinvzkw5YrOlWF-24" source="EXF6hBYinvzkw5YrOlWF-29">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="211.5" y="-39.99999999999977" as="sourcePoint" />
             <mxPoint x="419.0769230769233" y="40.00000000000023" as="targetPoint" />
@@ -102,104 +108,115 @@
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-33" value="track_id, artist_id" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-32" vertex="1" connectable="0">
           <mxGeometry x="-0.4241" relative="1" as="geometry">
-            <mxPoint x="55" y="-20" as="offset" />
+            <mxPoint x="50" y="-10" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-29" value="&lt;div&gt;&lt;b&gt;Spotify Web API (Track)&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=JetBrains+Mono&quot; face=&quot;JetBrains Mono&quot;&gt;&lt;span data-encore-id=&quot;type&quot; class=&quot;Type__TypeElement-sc-goli3j-0 eyOwjh sc-5af7b528-1 eWezdH&quot;&gt;api.spotify.com&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="20" y="-80" width="220" height="80" as="geometry" />
+          <mxGeometry x="-480" y="-120" width="220" height="80" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="9T9FECJhJkGeZcrZyAYb-36" target="EXF6hBYinvzkw5YrOlWF-22" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-40" value="region, date, pop, rap, rock, edm, hip hop, trap latino, reggaeton, electropop, dance pop, pop rap, musica mexicana, trap, modern rock, classic rock, uk pop, k-pop, tropical house, melodic rap, canadian pop, modern bollywood" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EXF6hBYinvzkw5YrOlWF-45">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-40" value="region, date, pop, rap, rock, edm,&lt;br&gt;hip hop, trap latino, reggaeton, electropop,&lt;br&gt;dance pop, pop rap, musica mexicana, trap,&lt;br&gt;modern rock, classic rock, uk pop, k-pop, tropical house,&lt;br&gt;melodic rap, canadian pop, modern bollywood" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-45" vertex="1" connectable="0">
           <mxGeometry x="-0.2406" y="-1" relative="1" as="geometry">
-            <mxPoint x="586" y="-4" as="offset" />
+            <mxPoint x="1" y="12" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-30" value="charts_genres" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
-          <mxGeometry x="600" y="40" width="120" height="60" as="geometry" />
+          <mxGeometry x="500" width="150" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="EXF6hBYinvzkw5YrOlWF-42" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-44" value="region,&amp;nbsp;date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-43" vertex="1" connectable="0">
           <mxGeometry x="-0.0961" y="-5" relative="1" as="geometry">
-            <mxPoint x="2" y="-25" as="offset" />
+            <mxPoint x="2" y="-15" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="9T9FECJhJkGeZcrZyAYb-36">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="9T9FECJhJkGeZcrZyAYb-36" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="420" y="130" />
-              <mxPoint x="1050" y="130" />
+              <mxPoint x="-30" y="120" />
+              <mxPoint x="580" y="120" />
+              <mxPoint x="580" y="190" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="EXF6hBYinvzkw5YrOlWF-22">
+        <mxCell id="BstzNRJKAcEGiaLT3W4L-3" value="region, date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-37">
+          <mxGeometry x="-0.1442" y="2" relative="1" as="geometry">
+            <mxPoint x="-60" y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="EXF6hBYinvzkw5YrOlWF-22" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="390" y="340" />
-              <mxPoint x="780" y="340" />
-              <mxPoint x="780" y="450" />
+              <mxPoint x="-93" y="430" />
+              <mxPoint x="830" y="430" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-42" value="region, date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-41">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-42" value="region, date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="9T9FECJhJkGeZcrZyAYb-41" vertex="1" connectable="0">
           <mxGeometry x="-0.2933" y="5" relative="1" as="geometry">
-            <mxPoint x="25" y="-15" as="offset" />
+            <mxPoint x="103" y="-5" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-39" value="&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=JetBrains+Mono&quot; face=&quot;JetBrains Mono&quot;&gt;charts_daily_sum&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="360" y="170" width="120" height="60" as="geometry" />
+          <mxGeometry x="-130" y="160" width="150" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-42" target="9T9FECJhJkGeZcrZyAYb-29" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="870" y="200" />
+              <mxPoint x="260" y="270" />
+              <mxPoint x="260" y="270" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-53" value="region,&amp;nbsp;year, stream_avg, stream_std" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-46" vertex="1" connectable="0">
           <mxGeometry x="-0.6889" y="1" relative="1" as="geometry">
-            <mxPoint x="86" y="-19" as="offset" />
+            <mxPoint x="-1" y="34" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-42" value="charts_yearly_stats" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
-          <mxGeometry x="630" y="170" width="210" height="60" as="geometry" />
+          <mxGeometry x="190" y="160" width="150" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="9T9FECJhJkGeZcrZyAYb-29" edge="1">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-39" target="9T9FECJhJkGeZcrZyAYb-29" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="420" y="280" />
+              <mxPoint x="-30" y="350" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-51" value="region, date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-47" vertex="1" connectable="0">
           <mxGeometry x="-0.0674" y="3" relative="1" as="geometry">
-            <mxPoint x="-44" y="-17" as="offset" />
+            <mxPoint x="61" y="-7" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-59" target="EXF6hBYinvzkw5YrOlWF-63" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-69" value="country, year, rural_population_percent, fertility_rate, gdp_per_capita_usd, mobile_subscriptions_per_100, refugee_population, total_population" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-68" vertex="1" connectable="0">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-69" value="country, year, rural_population_percent, fertility_rate, gdp_per_capita_usd,&lt;br&gt;mobile_subscriptions_per_100, refugee_population, total_population" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-68" vertex="1" connectable="0">
           <mxGeometry x="-0.1647" y="-5" relative="1" as="geometry">
-            <mxPoint x="48" y="35" as="offset" />
+            <mxPoint x="-5" y="-25" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-59" value="wdi_normalized" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
-          <mxGeometry x="530" y="590" width="120" height="60" as="geometry" />
+          <mxGeometry x="100" y="730" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-63" target="EXF6hBYinvzkw5YrOlWF-22" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="560" />
+              <mxPoint x="960" y="560" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="EXF6hBYinvzkw5YrOlWF-72" value="country, date, rural_population_percent, fertility_rate, &lt;br/&gt;gdp_per_capita_usd, mobile_subscriptions_per_100, refugee_population, &lt;br/&gt;total_population" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-70" vertex="1" connectable="0">
+        <mxCell id="EXF6hBYinvzkw5YrOlWF-72" value="country, date, rural_population_percent, fertility_rate,&lt;br&gt;gdp_per_capita_usd, mobile_subscriptions_per_100,&lt;br&gt;refugee_population, total_population" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-70" vertex="1" connectable="0">
           <mxGeometry x="0.1571" y="-3" relative="1" as="geometry">
-            <mxPoint x="31" y="7" as="offset" />
+            <mxPoint x="-63" y="142" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-63" value="wdi_interpolated" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
-          <mxGeometry x="870" y="590" width="120" height="60" as="geometry" />
+          <mxGeometry x="795" y="730" width="190" height="60" as="geometry" />
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-64" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="EXF6hBYinvzkw5YrOlWF-30" target="EXF6hBYinvzkw5YrOlWF-62" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -210,55 +227,68 @@
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-65" value="region, date, genre, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EXF6hBYinvzkw5YrOlWF-64" vertex="1" connectable="0">
           <mxGeometry x="-0.6087" y="2" relative="1" as="geometry">
-            <mxPoint x="65" y="-38" as="offset" />
+            <mxPoint x="49" y="-8" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="EXF6hBYinvzkw5YrOlWF-62" value="charts_daily_genres" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
-          <mxGeometry x="990" y="50" width="160" height="60" as="geometry" />
+          <mxGeometry x="810" width="160" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="9T9FECJhJkGeZcrZyAYb-23" target="EXF6hBYinvzkw5YrOlWF-39">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="9T9FECJhJkGeZcrZyAYb-23" target="EXF6hBYinvzkw5YrOlWF-39" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-90" y="110" />
+              <mxPoint x="-90" y="110" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-28" value="region, date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-27">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-28" value="region, date, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="9T9FECJhJkGeZcrZyAYb-27" vertex="1" connectable="0">
           <mxGeometry x="-0.521" y="-6" relative="1" as="geometry">
-            <mxPoint x="41" y="4" as="offset" />
+            <mxPoint x="11" y="17" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="9T9FECJhJkGeZcrZyAYb-23" target="EXF6hBYinvzkw5YrOlWF-24">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="9T9FECJhJkGeZcrZyAYb-23" target="EXF6hBYinvzkw5YrOlWF-24" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-35" value="region, date, track_id, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-34">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-35" value="region, date, track_id, streams" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="9T9FECJhJkGeZcrZyAYb-34" vertex="1" connectable="0">
           <mxGeometry x="-0.064" y="3" relative="1" as="geometry">
-            <mxPoint y="-17" as="offset" />
+            <mxPoint x="1" y="-7" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-23" value="&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=JetBrains+Mono&quot; face=&quot;JetBrains Mono&quot;&gt;charts_fmt&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-20" y="230" width="150" height="60" as="geometry" />
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-23" value="&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=JetBrains+Mono&quot; face=&quot;JetBrains Mono&quot;&gt;charts_fmt&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-130" width="150" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-29" value="charts_daily_popularity" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" vertex="1" parent="1">
-          <mxGeometry x="720" y="260" width="200" height="60" as="geometry" />
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-29" value="charts_daily_popularity" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
+          <mxGeometry x="175" y="320.23" width="180" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.169;entryY=0.076;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="9T9FECJhJkGeZcrZyAYb-29" target="EXF6hBYinvzkw5YrOlWF-22">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="9T9FECJhJkGeZcrZyAYb-29" target="EXF6hBYinvzkw5YrOlWF-22" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-33" value="region, date, popularity" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-32">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-33" value="region, date, popularity" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="9T9FECJhJkGeZcrZyAYb-32" vertex="1" connectable="0">
           <mxGeometry x="-0.4461" relative="1" as="geometry">
-            <mxPoint x="60" y="-15" as="offset" />
+            <mxPoint x="64" y="-10" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="EXF6hBYinvzkw5YrOlWF-62" target="9T9FECJhJkGeZcrZyAYb-36">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="EXF6hBYinvzkw5YrOlWF-62" target="9T9FECJhJkGeZcrZyAYb-36" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1070" y="110" as="sourcePoint" />
             <mxPoint x="1020" y="450" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="890" y="110" />
+              <mxPoint x="890" y="110" />
+            </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-39" value="region, date, pop, rap, rock, edm, hip hop, trap latino, reggaeton, electropop, dance pop, pop rap, musica mexicana, trap, modern rock, classic rock, uk pop, k-pop, tropical house, melodic rap, canadian pop, modern bollywood" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="9T9FECJhJkGeZcrZyAYb-38">
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-39" value="region, date, pop, rap, rock, edm,&lt;br&gt;hip hop, trap latino, reggaeton, electropop,&lt;br&gt;dance pop, pop rap, musica mexicana, trap,&lt;br&gt;modern rock, classic rock, uk pop, k-pop, tropical house,&lt;br&gt;melodic rap, canadian pop, modern bollywood" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="9T9FECJhJkGeZcrZyAYb-38" vertex="1" connectable="0">
           <mxGeometry x="-0.3965" y="-2" relative="1" as="geometry">
-            <mxPoint x="572" y="12" as="offset" />
+            <mxPoint x="2" y="20" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9T9FECJhJkGeZcrZyAYb-36" value="charts_genre_popularity" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" vertex="1" parent="1">
-          <mxGeometry x="1010" y="300" width="190" height="60" as="geometry" />
+        <mxCell id="9T9FECJhJkGeZcrZyAYb-36" value="charts_genre_popularity" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=JetBrains Mono;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DJetBrains%2BMono;" parent="1" vertex="1">
+          <mxGeometry x="795" y="160" width="190" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

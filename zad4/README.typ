@@ -12,7 +12,7 @@
 
 *Wszystkie obliczenia i pliki tymczasowe zostały opisane pod diagramem.*
 
-#image("pdzd.drawio.svg", width: 100%)
+#image("pdzd.drawio.png", width: 100%)
 
 == `charts_fmt`
 
@@ -393,6 +393,10 @@ Rozmiar: \~15 MB
 == *Dane wynikowe*
 
 === Obliczenia
+- złączenie `charts_genre_popularity cgp` i `charts_daily_popularity cdp` \ na `cgp.region == cdp.region && cgp.date == cdp.date`
+- złączenie `charts_genre_popularity cgp` i `charts_daily_sum cds` \ na `cgp.region == cds.region && cgp.date == cds.date`
+- złączenie `charts_genre_popularity cgp` i `daily_country_weather dcw` \ na `cgp.region == dcw.country && cgp.date == dcw.date`
+- złączenie `charts_genre_popularity cgp` i `wdi_interpolated wdi` \ na `cgp.region == wdi.country && cgp.date == wdi.date`
 
 === Plik wynikowy
 
