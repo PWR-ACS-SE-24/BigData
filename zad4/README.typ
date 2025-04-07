@@ -12,7 +12,10 @@
 
 *Wszystkie obliczenia i pliki tymczasowe zostały opisane pod diagramem.*
 
-#image("pdzd.drawio.png", width: 100%)
+#align(center)[
+  #image("pdzd.drawio.png", width: 70%)
+]
+
 
 == `charts_fmt`
 
