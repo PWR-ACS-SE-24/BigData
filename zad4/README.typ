@@ -10,12 +10,10 @@
 
 = Zadanie 4 -- Procesy przetwarzania danych
 
-*Wszystkie obliczenia i pliki tymczasowe zostały opisane pod diagramem.*
-
 #align(center)[
+  #text(fill: rgb("#AA4A44"))[*Wszystkie obliczenia i pliki tymczasowe zostały opisane pod diagramem.*]
   #image("pdzd.drawio.png", width: 70%)
 ]
-
 
 == `charts_fmt`
 
@@ -47,6 +45,8 @@ Rozmiar: \~400 MB
 └────────────┴────────────────────────┴───────────┴─────────┘
 ```
 
+#pagebreak()
+
 == `charts_daily_sum`
 
 === Obliczenia
@@ -76,6 +76,8 @@ Rozmiar: \~1 MB
 ...
 └───────────────────────────────────┘
 ```
+
+#pagebreak()
 
 == `charts_yearly_stats`
 
@@ -107,6 +109,8 @@ Rozmiar: \<1 MB
 ...
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
+
+#pagebreak()
 
 == `charts_daily_popularity`
 
@@ -144,6 +148,8 @@ Rozmiar: \<1 MB
 └─────────────────────────────────────┘
 ```
 
+#pagebreak()
+
 == `daily_country_weather`
 
 === Obliczenia
@@ -178,6 +184,8 @@ Rozmiar: \~2 MB
 └────────────────────────────────────────────────────────────────────┘
 ```
 
+#pagebreak()
+
 == `wdi_normalized`
 
 === Obliczenia
@@ -210,6 +218,8 @@ Rozmiar: \<1 MB
 ```
 ]
 
+#pagebreak()
+
 == `wdi_interpolated`
 
 === Obliczenia
@@ -217,8 +227,12 @@ Rozmiar: \<1 MB
 - generowanie serii dat `d` od `2017-01-01` do `2021-12-31`
 - złączenie dat z `wdi_normalized nxt` na `year(d.date) == nxt.year`
 - złączenie dat z `wdi_normalized prv` na `year(d.date) - 1 == prv.year && prv.country == nxt.country`
-- obliczenie interpolacji liniowej dla `rural_population_percent`, `fertility_rate`, `gdp_per_capita_usd`, `mobile_subscriptions_per_100`, `refugee_population_promille`:
-  - `value = prv.value * (1 - (d.dayofyear / 365)) + nxt.value * (d.dayofyear / 365)`
+- obliczenie interpolacji liniowej:
+  - `rural_population_percent = prv.rural_population_percent * (1 - (d.dayofyear / 365)) + nxt.rural_population_percent * (d.dayofyear / 365)`
+  - `fertility_rate = prv.fertility_rate * (1 - (d.dayofyear / 365)) + nxt.fertility_rate * (d.dayofyear / 365)`
+  - `gdp_per_capita_usd = prv.gdp_per_capita_usd * (1 - (d.dayofyear / 365)) + nxt.gdp_per_capita_usd * (d.dayofyear / 365)`
+  - `mobile_subscriptions_per_100 = prv.mobile_subscriptions_per_100 * (1 - (d.dayofyear / 365)) + nxt.mobile_subscriptions_per_100 * (d.dayofyear / 365)`
+  - `refugee_population_promille = prv.refugee_population_promille * (1 - (d.dayofyear / 365)) + nxt.refugee_population_promille * (d.dayofyear / 365)`
 
 === Plik tymczasowy
 
@@ -244,14 +258,15 @@ Rozmiar: \~15 MB
 ...
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
-
 ]
+
+#pagebreak()
 
 == `charts_artists`
 
 === Obliczenia
 
-- pobranie `artist_id` dla `track_id` z API Spotify
+- pobranie `artist_id` dla `track_id` z dynamicznego źródła API Spotify
 
 === Plik tymczasowy
 
@@ -276,11 +291,13 @@ Rozmiar: \~500 MB
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
+#pagebreak()
+
 == `charts_genres`
 
 === Obliczenia
 
-- pobranie `genre` dla `artist_id` z API Spotify
+- pobranie `genre` dla `artist_id` z dynamicznego źródła API Spotify
 
 === Plik tymczasowy
 
@@ -304,6 +321,8 @@ Rozmiar: \~400 MB
 ...
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+#pagebreak()
 
 == `charts_daily_genres`
 
@@ -340,33 +359,37 @@ Rozmiar: \~10 MB
 ```
 ]
 
+#pagebreak()
+
 == `charts_genre_popularity`
 
 === Obliczenia
 
 - złączenie `charts_daily_genres g` i `charts_daily_sum s` \ na `g.region == s.region && g.date == s.date`
 - obliczenie:
-  - `pop = g.pop / s.streams`
-  - `rap = g.rap / s.streams`
-  - `rock = g.rock / s.streams`
-  - `edm = g.edm / s.streams`
-  - `hip_hop = g.hip_hop / s.streams`
-  - `trap_latino = g.trap_latino / s.streams`
-  - `reggaeton = g.reggaeton / s.streams`
-  - `electropop = g.electropop / s.streams`
-  - `dance_pop = g.dance_pop / s.streams`
-  - `pop_rap = g.pop_rap / s.streams`
-  - `musica_mexicana = g.musica_mexicana / s.streams`
-  - `trap = g.trap / s.streams`
-  - `modern_rock = g.modern_rock / s.streams`
-  - `classic_rock = g.classic_rock / s.streams`
-  - `uk_pop = g.uk_pop / s.streams`
-  - `k_pop = g.k_pop / s.streams`
-  - `tropical_house = g.tropical_house / s.streams`
-  - `melodic_rap = g.melodic_rap / s.streams`
-  - `canadian_pop = g.canadian_pop / s.streams`
-  - `modern_bollywood = g.modern_bollywood / s.streams`
-
+  #columns(2)[
+    - `pop = g.pop / s.streams`
+    - `rap = g.rap / s.streams`
+    - `rock = g.rock / s.streams`
+    - `edm = g.edm / s.streams`
+    - `hip_hop = g.hip_hop / s.streams`
+    - `trap_latino = g.trap_latino / s.streams`
+    - `reggaeton = g.reggaeton / s.streams`
+    - `electropop = g.electropop / s.streams`
+    - `dance_pop = g.dance_pop / s.streams`
+    - `pop_rap = g.pop_rap / s.streams`
+    #colbreak()
+    - `musica_mexicana = g.musica_mexicana / s.streams`
+    - `trap = g.trap / s.streams`
+    - `modern_rock = g.modern_rock / s.streams`
+    - `classic_rock = g.classic_rock / s.streams`
+    - `uk_pop = g.uk_pop / s.streams`
+    - `k_pop = g.k_pop / s.streams`
+    - `tropical_house = g.tropical_house / s.streams`
+    - `melodic_rap = g.melodic_rap / s.streams`
+    - `canadian_pop = g.canadian_pop / s.streams`
+    - `modern_bollywood = g.modern_bollywood / s.streams`
+  ]
 === Plik tymczasowy
 
 Rozmiar: \~15 MB
@@ -392,6 +415,8 @@ Rozmiar: \~15 MB
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 ]
+
+#pagebreak()
 
 == *Dane wynikowe*
 
