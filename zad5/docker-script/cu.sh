@@ -132,6 +132,18 @@ $ip_addr
       - "master:10.0.2.3"
 $ip_addr
 $slave_service
+  loader:
+    image: python:3.13
+    hostname: loader
+    container_name: loader
+    entrypoint: bash -c "curl -LsSf https://astral.sh/uv/install.sh | sh && tail -f /dev/null"
+    tty: true
+    networks:
+      hadoop-cluster:
+        ipv4_address: 10.0.2.100
+    volumes:
+      - ../../zad6/loader:/root/loader
+      - ../../data:/root/data
 networks:
  hadoop-cluster:
   ipam:
