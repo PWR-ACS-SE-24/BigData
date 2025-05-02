@@ -95,12 +95,13 @@ convert_to_parquet("charts.csv")
 convert_to_parquet("cities.csv")
 convert_to_parquet("WDIData.csv")
 
-fetch_artists_from_tracks()
-fetch_genres_from_artists()
-
 upload_input_file("charts.parquet")
 upload_input_file("cities.parquet")
 upload_input_file("daily_weather.parquet")
 upload_input_file("WDIData.parquet")
+
+fetch_artists_from_tracks()
 upload_input_file("artists_from_tracks.parquet")
+
+fetch_genres_from_artists()
 upload_input_file("genres_from_artists.parquet")
