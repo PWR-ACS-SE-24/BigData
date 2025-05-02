@@ -124,6 +124,7 @@ $ip_addr
       - $hbase_log_path/master:/usr/local/hbase/logs
       - $hive_log_path:/usr/local/hive/logs
       - $sqoop_log_path:/usr/local/sqoop/logs
+      - ../../zad7/build/libs:/root/zad7
     networks:
       hadoop-cluster:
         ipv4_address: 10.0.2.3
@@ -142,8 +143,8 @@ $slave_service
       hadoop-cluster:
         ipv4_address: 10.0.2.100
     volumes:
-      - ../../zad6/loader:/root/loader
       - ../../data:/root/data
+      - ../../zad6/loader:/root/loader
 networks:
  hadoop-cluster:
   ipam:

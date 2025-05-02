@@ -17,6 +17,9 @@ application {
     mainClass = "dev.tchojnacki.bigdata.zad7.Main"
 }
 
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
+
 spotless {
     java {
         googleJavaFormat("1.26.0")
