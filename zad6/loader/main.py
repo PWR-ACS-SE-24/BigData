@@ -38,14 +38,14 @@ def upload_input_file(name: str) -> None:
     log(f"{name} uploaded successfully in {(end - start) / 1_000_000:.3f} ms, {math.ceil(size / (1024 * 1024)):.3f} MB")
     log(f"{name} status: {client.status(f"/input/{name}")}")
 
-def convert_to_parquet(name: str) -> None:
-    pq_name = os.path.splitext(name)[0] + ".parquet"
-    if os.path.exists(f"/root/data/{pq_name}"): # TODO
-        log(f"{name} already converted to parquet, skipping...")
-        return
-    log(f"{name} converting to parquet...")
-    duckdb.sql(f"""COPY (SELECT * FROM '/root/data/{name}') TO '/root/data/{pq_name}' (FORMAT PARQUET)""")
-    log(f"{name} converted to parquet successfully")
+# def convert_to_parquet(name: str) -> None:
+#     pq_name = os.path.splitext(name)[0] + ".parquet"
+#     if os.path.exists(f"/root/data/{pq_name}"): # TODO
+#         log(f"{name} already converted to parquet, skipping...")
+#         return
+#     log(f"{name} converting to parquet...")
+#     duckdb.sql(f"""COPY (SELECT * FROM '/root/data/{name}') TO '/root/data/{pq_name}' (FORMAT PARQUET)""")
+#     log(f"{name} converted to parquet successfully")
 
 def fetch_artists_from_tracks() -> None:
     log("Fetching artists from tracks...")
@@ -91,17 +91,17 @@ def fetch_genres_from_artists() -> None:
     duckdb.sql("DROP TABLE genres_from_artists")
     log("Genres from artists fetched successfully")
 
-convert_to_parquet("charts.csv")
-convert_to_parquet("cities.csv")
-convert_to_parquet("WDIData.csv")
+# convert_to_parquet("charts.csv")
+# convert_to_parquet("cities.csv")
+# convert_to_parquet("WDIData.csv")
 
-upload_input_file("charts.parquet")
-upload_input_file("cities.parquet")
-upload_input_file("daily_weather.parquet")
-upload_input_file("WDIData.parquet")
+upload_input_file("charts_small.csv")
+# upload_input_file("cities.parquet")
+# upload_input_file("daily_weather.parquet")
+# upload_input_file("WDIData.parquet")
 
-fetch_artists_from_tracks()
-upload_input_file("artists_from_tracks.parquet")
+# fetch_artists_from_tracks()
+# upload_input_file("artists_from_tracks.parquet")
 
-fetch_genres_from_artists()
-upload_input_file("genres_from_artists.parquet")
+# fetch_genres_from_artists()
+# upload_input_file("genres_from_artists.parquet")
