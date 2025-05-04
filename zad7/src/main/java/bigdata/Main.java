@@ -7,6 +7,9 @@ public class Main {
       case "ChartsDailySum":
         ChartsDailySum.run(args[1], args[2]);
         break;
+      case "DailyCountryWeather1":
+        DailyCountryWeather1.run(args[1], args[2], args[3]);
+        break;
       default:
         System.err.println("INVALID JOB");
     }

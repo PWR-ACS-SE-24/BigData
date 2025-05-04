@@ -91,13 +91,11 @@ def fetch_genres_from_artists() -> None:
     duckdb.sql("DROP TABLE genres_from_artists")
     log("Genres from artists fetched successfully")
 
-# convert_to_parquet("charts.csv")
-# convert_to_parquet("cities.csv")
-# convert_to_parquet("WDIData.csv")
-
 upload_input_file("charts_small.csv")
 # upload_input_file("cities.parquet")
+upload_input_file("cities.csv")
 # upload_input_file("daily_weather.parquet")
+upload_input_file("daily_weather_small.csv")
 # upload_input_file("WDIData.parquet")
 
 # fetch_artists_from_tracks()
