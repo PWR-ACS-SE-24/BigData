@@ -27,10 +27,10 @@ public class ChartsFmt {
       }
 
       String output = String.join(",",
-        fields[5],
-        fields[2],
-        fields[4].substring("https://open.spotify.com/track/".length()),
-        fields[8]
+        fields[5], // region
+        fields[2], // date
+        fields[4].substring("https://open.spotify.com/track/".length()), // track_id
+        fields[8] // streams
       );
 
       context.write(NullWritable.get(), new Text(output));
@@ -43,15 +43,14 @@ public class ChartsFmt {
     job.setJarByClass(ChartsFmt.class);
     job.setMapperClass(ChartsFmtMapper.class);
     job.setNumReduceTasks(0);
+    job.setOutputKeyClass(NullWritable.class);
+    job.setOutputValueClass(Text.class);
 
     job.setInputFormatClass(TextInputFormat.class);
     FileInputFormat.setInputPaths(job, new Path(inputPath));
 
     job.setOutputFormatClass(TextOutputFormat.class);
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
-
-    job.setOutputKeyClass(NullWritable.class);
-    job.setOutputValueClass(Text.class);
 
     System.exit(job.waitForCompletion(true) ? 0 : 1);
   }
