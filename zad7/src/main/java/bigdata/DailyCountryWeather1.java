@@ -14,10 +14,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class DailyCountryWeather1 {
+    public static enum Counters { MAPPER_WEATHER, MAPPER_CITY, REDUCER }
+    
     public static class DailyCountryWeather1WeatherMapper extends Mapper<Object, Text, Text, Text> {
         @Override
         protected void map(Object key, Text value, Context context)
                 throws IOException, InterruptedException {
+            long startTime = System.nanoTime();
             String line = value.toString();
             if (line.equals("station_id,date,avg_temp_c,precipitation_mm")) {
                 return;
@@ -34,6 +37,8 @@ public class DailyCountryWeather1 {
             // }
 
             context.write(new Text(stationId), new Text(String.join("!@#", "WEATHER", date, temperatureC, precipitationMm)));
+            long endTime = System.nanoTime();
+            context.getCounter(Counters.MAPPER_WEATHER).increment(endTime - startTime);
         }
     }
 
@@ -41,6 +46,7 @@ public class DailyCountryWeather1 {
         @Override
         protected void map(Object key, Text value, Context context)
                 throws IOException, InterruptedException {
+            long startTime = System.nanoTime();
             String line = value.toString();
             if (line.equals("station_id,city_name,country,state,iso2,iso3,latitude,longitude")) {
                 return;
@@ -50,6 +56,8 @@ public class DailyCountryWeather1 {
             String country = fields[2];
 
             context.write(new Text(stationId), new Text(String.join("!@#", "CITY", country)));
+            long endTime = System.nanoTime();
+            context.getCounter(Counters.MAPPER_CITY).increment(endTime - startTime);
         }
     }
 
@@ -57,6 +65,7 @@ public class DailyCountryWeather1 {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context)
                 throws IOException, InterruptedException {
+            long startTime = System.nanoTime();
             String stationId = key.toString();
             String country = null;
             ArrayList<String> dates = new ArrayList<>();
@@ -92,6 +101,8 @@ public class DailyCountryWeather1 {
 
                 context.write(NullWritable.get(), new Text(output));
             }
+            long endTime = System.nanoTime();
+            context.getCounter(Counters.REDUCER).increment(endTime - startTime);
         }
     }
 
@@ -112,10 +123,17 @@ public class DailyCountryWeather1 {
         job.setOutputFormatClass(TextOutputFormat.class);
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
+        long startTime = System.nanoTime();
         int status = job.waitForCompletion(true) ? 0 : 1;
+        long endTime = System.nanoTime();
 
         config.teardown(conf, weatherInputPath);
         config.teardown(conf, cityInputPath);
+
+        System.err.println(String.format("DailyCountryWeather1: %.3f ms", (endTime - startTime) / 1e6));
+        System.err.println(String.format("Mapper (weather) time: %.3f ms", job.getCounters().findCounter(Counters.MAPPER_WEATHER).getValue() / 1e6));
+        System.err.println(String.format("Mapper (city) time: %.3f ms", job.getCounters().findCounter(Counters.MAPPER_CITY).getValue() / 1e6));
+        System.err.println(String.format("Reducer time: %.3f ms", job.getCounters().findCounter(Counters.REDUCER).getValue() / 1e6));
 
         return status;
     }

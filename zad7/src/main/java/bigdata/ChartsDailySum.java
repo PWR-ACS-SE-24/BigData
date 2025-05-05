@@ -13,10 +13,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class ChartsDailySum {
- public static class ChartsDailySumMapper extends Mapper<Object, Text, Text, LongWritable> {
+  public static enum Counters { MAPPER, REDUCER }
+
+  public static class ChartsDailySumMapper extends Mapper<Object, Text, Text, LongWritable> {
     @Override
     protected void map(Object key, Text value, Context context)
         throws IOException, InterruptedException {
+      long startTime = System.nanoTime();
       String line = value.toString();
       String[] fields = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
       String region = fields[0];
@@ -26,6 +29,8 @@ public class ChartsDailySum {
       String outKey = region + "!@#" + date;
       long streamsCount = Long.parseLong(streams);
       context.write(new Text(outKey), new LongWritable(streamsCount));
+      long endTime = System.nanoTime();
+      context.getCounter(Counters.MAPPER).increment(endTime - startTime);
     }
   }
 
@@ -33,6 +38,7 @@ public class ChartsDailySum {
     @Override
     protected void reduce(Text key, Iterable<LongWritable> values, Context context)
         throws IOException, InterruptedException {
+      long startTime = System.nanoTime();
       String[] keyParts = key.toString().split("!@#");
       String region = keyParts[0];
       String date = keyParts[1];
@@ -49,6 +55,8 @@ public class ChartsDailySum {
       );
 
       context.write(NullWritable.get(), new Text(output));
+      long endTime = System.nanoTime();
+      context.getCounter(Counters.REDUCER).increment(endTime - startTime);
     }
   }
 
@@ -70,9 +78,15 @@ public class ChartsDailySum {
     job.setOutputFormatClass(TextOutputFormat.class);
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
+    long startTime = System.nanoTime();
     int status = job.waitForCompletion(true) ? 0 : 1;
+    long endTime = System.nanoTime();
 
     config.teardown(conf, inputPath);
+
+    System.err.println(String.format("ChartsDailySum: %.3f ms", (endTime - startTime) / 1e6));
+    System.err.println(String.format("Mapper time: %.3f ms", job.getCounters().findCounter(Counters.MAPPER).getValue() / 1e6));
+    System.err.println(String.format("Reducer time: %.3f ms", job.getCounters().findCounter(Counters.REDUCER).getValue() / 1e6));
 
     return status;
   }

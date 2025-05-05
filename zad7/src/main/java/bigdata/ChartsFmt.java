@@ -12,10 +12,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class ChartsFmt {
+  public static enum Counters { MAPPER }
+
   public static class ChartsFmtMapper extends Mapper<Object, Text, NullWritable, Text> {
     @Override
     protected void map(Object key, Text value, Context context)
         throws IOException, InterruptedException {
+      long startTime = System.nanoTime();
       String line = value.toString();
       if (line.equals("title,rank,date,artist,url,region,chart,trend,streams")) {
         return;
@@ -35,6 +38,8 @@ public class ChartsFmt {
       );
 
       context.write(NullWritable.get(), new Text(output));
+      long endTime = System.nanoTime();
+      context.getCounter(Counters.MAPPER).increment(endTime - startTime);
     }
   }
 
@@ -57,9 +62,14 @@ public class ChartsFmt {
     job.setOutputFormatClass(TextOutputFormat.class);
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
+    long startTime = System.nanoTime();
     int status = job.waitForCompletion(true) ? 0 : 1;
+    long endTime = System.nanoTime();
 
     config.teardown(conf, inputPath);
+
+    System.err.println(String.format("ChartsFmt: %.3f ms", (endTime - startTime) / 1e6));
+    System.err.println(String.format("Mapper time: %.3f ms", job.getCounters().findCounter(Counters.MAPPER).getValue() / 1e6));
 
     return status;
   }

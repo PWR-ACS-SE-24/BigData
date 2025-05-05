@@ -12,10 +12,13 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import java.io.IOException;
 
 public class DailyCountryWeather2 {
+    public static enum Counters { MAPPER, REDUCER }
+
     public static class DailyCountryWeather2Mapper extends Mapper<Object, Text, Text, Text> {
         @Override
         protected void map(Object key, Text value, Context context)
                 throws IOException, InterruptedException {
+            long startTime = System.nanoTime();
             String line = value.toString();
             String[] fields = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 
@@ -27,6 +30,8 @@ public class DailyCountryWeather2 {
             String outKey = country + "!@#" + date;
             String outValue = temperatureC + "!@#" + precipitationMm;
             context.write(new Text(outKey), new Text(outValue));
+            long endTime = System.nanoTime();
+            context.getCounter(Counters.MAPPER).increment(endTime - startTime);
         }
     }
 
@@ -34,6 +39,7 @@ public class DailyCountryWeather2 {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context)
                 throws IOException, InterruptedException {
+            long startTime = System.nanoTime();
             String[] keyParts = key.toString().split("!@#");
             String country = keyParts[0];
             String date = keyParts[1];
@@ -71,6 +77,8 @@ public class DailyCountryWeather2 {
                     String.format("%.2f", averagePrecipitationMm)
             );
             context.write(NullWritable.get(), new Text(output));
+            long endTime = System.nanoTime();
+            context.getCounter(Counters.REDUCER).increment(endTime - startTime);
         }
     }
 
@@ -91,9 +99,16 @@ public class DailyCountryWeather2 {
         FileInputFormat.addInputPath(job, new Path(inputPath));
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
+        long startTime = System.nanoTime();
         int status = job.waitForCompletion(true) ? 0 : 1;
+        long endTime = System.nanoTime();
 
         config.teardown(conf, inputPath);
+
+        System.err.println(String.format("DailyCountryWeather2: %.3f ms", (endTime - startTime) / 1e6));
+        System.err.println(String.format("Mapper time: %.3f ms", job.getCounters().findCounter(Counters.MAPPER).getValue() / 1e6));
+        System.err.println(String.format("Reducer time: %.3f ms", job.getCounters().findCounter(Counters.REDUCER).getValue() / 1e6));
+
 
         return status;
     }
