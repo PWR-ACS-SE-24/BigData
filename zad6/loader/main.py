@@ -93,7 +93,7 @@ def fetch_artists_from_tracks() -> None:
             data = response.json()
             log(f"{track_id} {response.status_code} {data}", file_only=True)
             for artist in data["artists"]:
-                writer.sql(f"INSERT INTO artists_from_tracks VALUES (?, ?)", params=(track_id, artist["id"]))
+                writer.sql("INSERT INTO artists_from_tracks VALUES (?, ?)", params=(track_id, artist["id"]))
         writer.sql("COPY artists_from_tracks TO '/root/data/artists_from_tracks.csv' (FORMAT CSV, HEADER TRUE)")
         writer.sql("DROP TABLE artists_from_tracks")
         log("Artists from tracks fetched successfully")
@@ -120,7 +120,7 @@ def fetch_genres_from_artists() -> None:
             data = response.json()
             log(f"{artist_id} {response.status_code} {data}", file_only=True)
             for genre in data["genres"]:
-                writer.sql(f"INSERT INTO genres_from_artists VALUES (?, ?)", params=(artist_id, genre))
+                writer.sql("INSERT INTO genres_from_artists VALUES (?, ?)", params=(artist_id, genre))
         writer.sql("COPY genres_from_artists TO '/root/data/genres_from_artists.csv' (FORMAT CSV, HEADER TRUE)")
         writer.sql("DROP TABLE genres_from_artists")
         log("Genres from artists fetched successfully")
