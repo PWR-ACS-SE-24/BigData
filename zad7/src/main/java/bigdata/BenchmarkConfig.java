@@ -4,9 +4,9 @@ import org.apache.hadoop.fs.Path;
 import java.io.IOException;
 
 public class BenchmarkConfig {
-    public int reducers = 1;
-    public short replication = 1;
-    public int splitMb = 1;
+    public int reducers;
+    public short replication;
+    public int splitMb;
 
     public BenchmarkConfig(int reducers, short replication, int splitMb) {
         this.reducers = reducers;
