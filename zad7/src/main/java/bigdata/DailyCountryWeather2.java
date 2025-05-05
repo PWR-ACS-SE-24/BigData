@@ -74,12 +74,15 @@ public class DailyCountryWeather2 {
         }
     }
 
-    public static int run(String inputPath, String outputPath) throws Exception {
+    public static int run(BenchmarkConfig config, String inputPath, String outputPath) throws Exception {
+        Configuration conf = new Configuration();
+        config.setup(conf, inputPath);
         Job job = Job.getInstance(new Configuration(), "DailyCountryWeather2");
 
         job.setJarByClass(DailyCountryWeather2.class);
         job.setMapperClass(DailyCountryWeather2Mapper.class);
         job.setReducerClass(DailyCountryWeather2Reducer.class);
+        job.setNumReduceTasks(config.reducers);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
         job.setInputFormatClass(TextInputFormat.class);
@@ -88,6 +91,10 @@ public class DailyCountryWeather2 {
         FileInputFormat.addInputPath(job, new Path(inputPath));
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-        return job.waitForCompletion(true) ? 0 : 1;
+        int status = job.waitForCompletion(true) ? 0 : 1;
+
+        config.teardown(conf, inputPath);
+
+        return status;
     }
 }

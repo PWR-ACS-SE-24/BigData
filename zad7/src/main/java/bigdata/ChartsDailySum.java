@@ -52,12 +52,15 @@ public class ChartsDailySum {
     }
   }
 
-  public static int run(String inputPath, String outputPath) throws Exception {
-    Job job = Job.getInstance(new Configuration(), "ChartsDailySum");
+  public static int run(BenchmarkConfig config, String inputPath, String outputPath) throws Exception {
+    Configuration conf = new Configuration();
+    config.setup(conf, inputPath);
+    Job job = Job.getInstance(conf, "ChartsDailySum");
 
     job.setJarByClass(ChartsDailySum.class);
     job.setMapperClass(ChartsDailySumMapper.class);
     job.setReducerClass(ChartsDailySumReducer.class);
+    job.setNumReduceTasks(config.reducers);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(LongWritable.class);
 
@@ -67,6 +70,10 @@ public class ChartsDailySum {
     job.setOutputFormatClass(TextOutputFormat.class);
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-    return job.waitForCompletion(true) ? 0 : 1;
+    int status = job.waitForCompletion(true) ? 0 : 1;
+
+    config.teardown(conf, inputPath);
+
+    return status;
   }
 }

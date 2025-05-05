@@ -95,19 +95,28 @@ public class DailyCountryWeather1 {
         }
     }
 
-    public static int run(String weatherInputPath, String cityInputPath, String outputPath) throws Exception {
+    public static int run(BenchmarkConfig config, String weatherInputPath, String cityInputPath, String outputPath) throws Exception {
+        Configuration conf = new Configuration();
+        config.setup(conf, weatherInputPath);
+        config.setup(conf, cityInputPath);
         Job job = Job.getInstance(new Configuration(), "DailyCountryWeather1");
 
         job.setJarByClass(DailyCountryWeather1.class);
         MultipleInputs.addInputPath(job, new Path(weatherInputPath), TextInputFormat.class, DailyCountryWeather1WeatherMapper.class);
         MultipleInputs.addInputPath(job, new Path(cityInputPath), TextInputFormat.class, DailyCountryWeather1CityMapper.class);
         job.setReducerClass(DailyCountryWeather1Reducer.class);
+        job.setNumReduceTasks(config.reducers);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
 
         job.setOutputFormatClass(TextOutputFormat.class);
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-        return job.waitForCompletion(true) ? 0 : 1;
+        int status = job.waitForCompletion(true) ? 0 : 1;
+
+        config.teardown(conf, weatherInputPath);
+        config.teardown(conf, cityInputPath);
+
+        return status;
     }
 }

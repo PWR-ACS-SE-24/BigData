@@ -42,12 +42,8 @@ public class ChartsFmt {
     System.err.println(config);
 
     Configuration conf = new Configuration();
-    conf.set("mapreduce.input.fileinputformat.split.minsize", String.valueOf(config.splitMb * 1024 * 1024));
-    conf.set("mapreduce.input.fileinputformat.split.maxsize", String.valueOf(config.splitMb * 1024 * 1024));
+    config.setup(conf, inputPath);
     Job job = Job.getInstance(conf, "ChartsFmt");
-
-    FileSystem fs = FileSystem.get(conf);
-    fs.setReplication(new Path(inputPath), (short) config.replication);
 
     job.setJarByClass(ChartsFmt.class);
     job.setMapperClass(ChartsFmtMapper.class);
@@ -63,7 +59,7 @@ public class ChartsFmt {
 
     int status = job.waitForCompletion(true) ? 0 : 1;
 
-    fs.setReplication(new Path(inputPath), (short) 3);
+    config.teardown(conf, inputPath);
 
     return status;
   }
