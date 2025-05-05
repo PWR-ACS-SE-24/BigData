@@ -95,7 +95,7 @@ public class DailyCountryWeather1 {
         }
     }
 
-    public static void run(String weatherInputPath, String cityInputPath, String outputPath) throws Exception {
+    public static int run(String weatherInputPath, String cityInputPath, String outputPath) throws Exception {
         Job job = Job.getInstance(new Configuration(), "DailyCountryWeather1");
 
         job.setJarByClass(DailyCountryWeather1.class);
@@ -108,6 +108,6 @@ public class DailyCountryWeather1 {
         job.setOutputFormatClass(TextOutputFormat.class);
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        return job.waitForCompletion(true) ? 0 : 1;
     }
 }

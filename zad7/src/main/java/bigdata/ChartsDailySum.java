@@ -52,7 +52,7 @@ public class ChartsDailySum {
     }
   }
 
-  public static void run(String inputPath, String outputPath) throws Exception {
+  public static int run(String inputPath, String outputPath) throws Exception {
     Job job = Job.getInstance(new Configuration(), "ChartsDailySum");
 
     job.setJarByClass(ChartsDailySum.class);
@@ -67,6 +67,6 @@ public class ChartsDailySum {
     job.setOutputFormatClass(TextOutputFormat.class);
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-    System.exit(job.waitForCompletion(true) ? 0 : 1);
+    return job.waitForCompletion(true) ? 0 : 1;
   }
 }

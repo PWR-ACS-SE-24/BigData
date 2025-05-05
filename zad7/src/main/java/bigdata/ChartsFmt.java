@@ -37,7 +37,7 @@ public class ChartsFmt {
     }
   }
 
-  public static void run(String inputPath, String outputPath) throws Exception {
+  public static int run(String inputPath, String outputPath) throws Exception {
     Job job = Job.getInstance(new Configuration(), "ChartsFmt");
 
     job.setJarByClass(ChartsFmt.class);
@@ -52,6 +52,6 @@ public class ChartsFmt {
     job.setOutputFormatClass(TextOutputFormat.class);
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-    System.exit(job.waitForCompletion(true) ? 0 : 1);
+    return job.waitForCompletion(true) ? 0 : 1;
   }
 }
