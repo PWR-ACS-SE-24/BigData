@@ -71,7 +71,7 @@ def upload_input_file(name: str) -> None:
     update_digest(name, digest)
     log(f"{name} digest: {digest}")
 
-def fetch_artists_from_tracks() -> None:
+def fetch_artists_from_tracks(charts_type: str) -> None:
     log("Fetching artists from tracks...")
     with duckdb.connect() as reader, duckdb.connect() as writer:
         writer.sql("CREATE TABLE IF NOT EXISTS artists_from_tracks (track_id VARCHAR, artist_id VARCHAR)")
@@ -81,7 +81,7 @@ def fetch_artists_from_tracks() -> None:
         except:
             pass
         track_ids = set(row[0] for row in writer.sql("SELECT DISTINCT track_id FROM artists_from_tracks").fetchall())
-        cursor = reader.sql("SELECT DISTINCT url FROM '/root/data/charts.csv'")
+        cursor = reader.sql(f"SELECT DISTINCT url FROM '/root/data/{charts_type}.csv'")
         while (row := cursor.fetchone()) is not None:
             track_id = row[0].split("/")[-1]
             if track_id in track_ids:
@@ -131,15 +131,17 @@ if __name__ == "__main__":
     log(f"Digests: {digests}")
 
     upload_input_file("charts_small.csv")
+    upload_input_file("charts_2017.csv")
     upload_input_file("daily_weather_small.csv")
+    upload_input_file("daily_weather_2017.csv")
 
     upload_input_file("charts.csv")
     upload_input_file("daily_weather.csv")
     upload_input_file("cities.csv")
     upload_input_file("WDIData.csv")
 
-    fetch_artists_from_tracks()
-    upload_input_file("artists_from_tracks.csv")
+    # fetch_artists_from_tracks("charts_2017")
+    # upload_input_file("artists_from_tracks.csv")
 
-    fetch_genres_from_artists()
-    upload_input_file("genres_from_artists.csv")
+    # fetch_genres_from_artists()
+    # upload_input_file("genres_from_artists.csv")
