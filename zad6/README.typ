@@ -1,6 +1,81 @@
 #set par(justify: true)
 
 #align(center)[
+#text(size: 20pt)[Zadanie 6 -- Poprawione]
+
+*Treść oryginalnego sprawozdania dostępna poniżej.*
+]
+
+Ulepszyliśmy możliwości akwizycji przyrostowej danych na następujące sposoby:
+
+== Porównanie sum kontrolnych
+
+Zamiast usuwać z HDFS wszystkich plików na początku procesu akwizycji, skrypt pobiera z HDFS specjalny plik `/digests` zawierający sumy kontrolne (hash SHA-256) wszystkich plików wejściowych. Następnie przy wgrywaniu konkretnych plików z danymi wejściowymi, skrypt porównuje obliczony skrót pliku lokalnego ze skrótem pliku w HDFS. Jeżeli skróty się zgadzają, przechodzimy do przetwarzania następnego pliku. Jeżeli nie, skrypt usuwa starą wersję pliku w HDFS, wgrywa nową dokonując odpowiednich wpisów w dzienniku oraz aktualizuje plik `/digests`.
+
+#[
+#set text(size: 8pt)
+```Python
+def load_digests() -> None:
+    try:
+        with client.read("/digests", encoding="utf-8") as f:
+            lines = f.read().splitlines()
+            for line in lines:
+                p, d = line.split(":")
+                digests[p] = d
+    except:
+        pass
+
+def update_digest(path: str, digest: str) -> None:
+    digests[path] = digest
+    content = "\n".join(f"{p}:{h}" for p, h in digests.items())
+    client.write("/digests", content, overwrite=True, encoding="utf-8")
+
+def get_digest(path: str) -> str:
+    hasher = hashlib.sha256()
+    with open(path, 'rb') as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
+```
+```
+[2025-05-05 19:06:29] charts_small.csv exists, but is outdated, deleting...
+[2025-05-05 19:06:30] charts_small.csv uploading...
+[2025-05-05 19:06:30] charts_small.csv uploaded successfully in 611.805 ms, 1.000 MB
+[2025-05-05 19:06:30] charts_small.csv status: {'accessTime': 1746471990189, 'blockSize': 134217728, 'childrenNum': 0, 'fileId': 16530, 'group': 'supergroup', 'length': 2849, 'modificationTime': 1746471990765, 'owner': 'root', 'pathSuffix': '', 'permission': '644', 'replication': 3, 'storagePolicy': 0, 'type': 'FILE'}
+[2025-05-05 19:06:31] charts_small.csv digest: 27895629d87b31acac1e3541a6824831bb5b47d4e60fe150e59bdc1e7f83281e
+
+[2025-05-05 19:06:36] charts_2017.csv already uploaded and up to date, skipping...
+[2025-05-05 19:06:36] daily_weather_2017.csv already uploaded and up to date, skipping...
+[2025-05-05 19:06:36] cities.csv already uploaded and up to date, skipping...
+[2025-05-05 19:06:38] WDIData.csv already uploaded and up to date, skipping...
+```
+]
+
+== Pobieranie przyrostowe danych dynamicznych z API
+
+Dla danych dynamicznych (pobieranie ze Spotify API artystów dla utworów oraz gatunków dla artystów), zapisywane są identyfikatory już pobranych zasobów. W momencie ponownego uruchomienia skryptu, jeżeli dany zasób został już pobrany, nie jest on ponownie zażądany od API. W ten sposób zmniejszamy liczbę zapytań do API oraz czas przetwarzania.
+
+#[
+#set text(size: 8pt)
+```Python
+try:
+    writer.sql("COPY artists_from_tracks FROM '/root/data/artists_from_tracks.csv' (FORMAT CSV, HEADER TRUE)")
+except:
+    pass
+track_ids = set(row[0] for row in writer.sql("SELECT DISTINCT track_id FROM artists_from_tracks").fetchall())
+
+
+
+while (row := cursor.fetchone()) is not None:
+    track_id = row[0].split("/")[-1]
+    if track_id in track_ids:
+        continue
+```
+]
+
+#pagebreak()
+
+#align(center)[
   #text(size: 20pt, weight: "bold")[Przetwarzanie dużych zbiorów danych (PDZD)]
 
   Zespół B1 (geopolityka i muzyka): \
