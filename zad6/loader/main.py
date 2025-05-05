@@ -1,5 +1,6 @@
 import math
 import os
+import hashlib
 from datetime import datetime
 from time import time_ns
 import duckdb
@@ -7,11 +8,33 @@ from hdfs import InsecureClient
 import requests
 
 client = InsecureClient("http://10.0.2.3:9870", user="root")
+digests: dict[str, str] = {}
 
-# TODO
-client.delete("/input", recursive=True)
-client.makedirs("/input")
-client.write("/logs.txt", "", overwrite=True, encoding="utf-8")
+def initialize() -> None:
+    client.makedirs("/input")
+    client.write("/logs.txt", "", overwrite=True, encoding="utf-8")
+
+def load_digests() -> None:
+    try:
+        with client.read("/digests", encoding="utf-8") as f:
+            lines = f.read().splitlines()
+            for line in lines:
+                p, d = line.split(":")
+                digests[p] = d
+    except:
+        pass
+
+def update_digest(path: str, digest: str) -> None:
+    digests[path] = digest
+    content = "\n".join(f"{p}:{h}" for p, h in digests.items())
+    client.write("/digests", content, overwrite=True, encoding="utf-8")
+
+def get_digest(path: str) -> str:
+    hasher = hashlib.sha256()
+    with open(path, 'rb') as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
 
 def log(message: str, *, file_only: bool = False) -> None:
     message = f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}\n"
@@ -20,7 +43,14 @@ def log(message: str, *, file_only: bool = False) -> None:
     client.write("/logs.txt", message, append=True, encoding="utf-8")
 
 def upload_input_file(name: str) -> None:
+    digest = get_digest(f"/root/data/{name}")
+    if name in digests and digests[name] == digest:
+        log(f"{name} already uploaded and up to date, skipping...")
+        return
     size = os.path.getsize(f"/root/data/{name}")
+    if client.status(f"/input/{name}", strict=False) is not None:
+        log(f"{name} exists, but is outdated, deleting...")
+        client.delete(f"/input/{name}")
     log(f"{name} uploading...")
     start = time_ns()
     try:
@@ -38,6 +68,8 @@ def upload_input_file(name: str) -> None:
         return
     log(f"{name} uploaded successfully in {(end - start) / 1_000_000:.3f} ms, {math.ceil(size / (1024 * 1024)):.3f} MB")
     log(f"{name} status: {client.status(f"/input/{name}")}")
+    update_digest(name, digest)
+    log(f"{name} digest: {digest}")
 
 def fetch_artists_from_tracks() -> None:
     log("Fetching artists from tracks...")
@@ -83,16 +115,21 @@ def fetch_genres_from_artists() -> None:
     duckdb.sql("DROP TABLE genres_from_artists")
     log("Genres from artists fetched successfully")
 
-upload_input_file("charts_small.csv")
-upload_input_file("daily_weather_small.csv")
+if __name__ == "__main__":
+    initialize()
+    load_digests()
+    log(f"Digests: {digests}")
 
-upload_input_file("charts.csv")
-upload_input_file("daily_weather.csv")
-upload_input_file("cities.csv")
-upload_input_file("WDIData.csv")
+    upload_input_file("charts_small.csv")
+    upload_input_file("daily_weather_small.csv")
 
-fetch_artists_from_tracks()
-upload_input_file("artists_from_tracks.csv")
+    upload_input_file("charts.csv")
+    upload_input_file("daily_weather.csv")
+    upload_input_file("cities.csv")
+    upload_input_file("WDIData.csv")
 
-fetch_genres_from_artists()
-upload_input_file("genres_from_artists.csv")
+    fetch_artists_from_tracks()
+    upload_input_file("artists_from_tracks.csv")
+
+    fetch_genres_from_artists()
+    upload_input_file("genres_from_artists.csv")
