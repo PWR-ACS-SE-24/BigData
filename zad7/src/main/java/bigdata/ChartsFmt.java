@@ -1,6 +1,7 @@
 import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -37,8 +38,16 @@ public class ChartsFmt {
     }
   }
 
-  public static int run(String inputPath, String outputPath) throws Exception {
-    Job job = Job.getInstance(new Configuration(), "ChartsFmt");
+  public static int run(BenchmarkConfig config, String inputPath, String outputPath) throws Exception {
+    System.err.println(config);
+
+    Configuration conf = new Configuration();
+    conf.set("mapreduce.input.fileinputformat.split.minsize", String.valueOf(config.splitMb * 1024 * 1024));
+    conf.set("mapreduce.input.fileinputformat.split.maxsize", String.valueOf(config.splitMb * 1024 * 1024));
+    Job job = Job.getInstance(conf, "ChartsFmt");
+
+    FileSystem fs = FileSystem.get(conf);
+    fs.setReplication(new Path(inputPath), (short) config.replication);
 
     job.setJarByClass(ChartsFmt.class);
     job.setMapperClass(ChartsFmtMapper.class);
@@ -52,6 +61,10 @@ public class ChartsFmt {
     job.setOutputFormatClass(TextOutputFormat.class);
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-    return job.waitForCompletion(true) ? 0 : 1;
+    int status = job.waitForCompletion(true) ? 0 : 1;
+
+    fs.setReplication(new Path(inputPath), (short) 3);
+
+    return status;
   }
 }

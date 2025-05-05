@@ -4,7 +4,7 @@ public class Main {
       case "ChartsFmt":{
         String charts = args.length >= 2 ? args[1] : "/input/charts_2017.csv";
         String chartsFmt = args.length >= 3 ? args[2] : "/charts_fmt";
-        System.exit(ChartsFmt.run(charts, chartsFmt));
+        System.exit(ChartsFmt.run(BenchmarkConfig.DEFAULT, charts, chartsFmt));
         break;}
       case "ChartsDailySum":{
         String chartsFmt = args.length >= 2 ? args[1] : "/charts_fmt";
@@ -31,6 +31,16 @@ public class Main {
         String dailyCountryWeather2 = args.length >= 3 ? args[2] : "/daily_country_weather_2";
         System.exit(DailyCountryWeather2.run(dailyCountryWeather1, dailyCountryWeather2));
         break;}
+      case "Benchmark":{
+        String benchmarkId = String.valueOf(System.currentTimeMillis());
+
+        int reducers = args.length >= 2 ? Integer.parseInt(args[1]) : 1;
+        short replication = args.length >= 3 ? Short.parseShort(args[2]) : 3;
+        int splitMb = args.length >= 4 ? Integer.parseInt(args[3]) : 128;
+        BenchmarkConfig config = new BenchmarkConfig(reducers, replication, splitMb);
+
+        ChartsFmt.run(config, "/input/charts_2017.csv", "/charts_fmt_" + benchmarkId);
+      }
       default:{
         System.err.println("INVALID JOB");
         System.err.println("ChartsFmt <charts> <charts_fmt>");
