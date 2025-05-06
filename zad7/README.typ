@@ -17,11 +17,333 @@ Poniżej przedstawiono 3 procesy, które wybraliśmy do analizy:
 
 == Proces 1 -- `ChartsFmt`
 
+Proces pierwszy jest trywialny i składa się z jednego zadania Map-Reduce bez reducerów. Jest on odpowiedzialny za przetworzenie wstępne pliku `charts_2017.csv`, zawierającego dane o najpopularniejszych utworach muzycznych. Proces dzieli linię CSV na poszczególne kolumny, odfiltrowuje wiersze, dla których `chart != "top200"`, a następnie przekształca je do formatu `region,date,track_id,streams`. Dane są wypisywane do osobnego pliku CSV, który jest następnie używany jako wejście do kolejnych procesów. Mierzony jest czas wykonania całego zadania oraz czas spędzony w mapperze.
+
+#v(1fr)
+
+#image("./img/Wilczur-Proces-1.drawio.png")
+
+#pagebreak()
+
+#[
+#set text(size: 8pt)
+```java
+public static class ChartsFmtMapper extends Mapper<Object, Text, NullWritable, Text> {
+  @Override
+  protected void map(Object key, Text value, Context context)
+      throws IOException, InterruptedException {
+    long startTime = System.nanoTime();
+    String line = value.toString();
+    if (line.equals("title,rank,date,artist,url,region,chart,trend,streams")) {
+      return;
+    }
+
+    String[] fields = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+
+    if (!fields[6].equals("top200")) {
+      return;
+    }
+
+    String output = String.join(",",
+      fields[5], // region
+      fields[2], // date
+      fields[4].substring("https://open.spotify.com/track/".length()), // track_id
+      fields[8] // streams
+    );
+
+    context.write(NullWritable.get(), new Text(output));
+    long endTime = System.nanoTime();
+    context.getCounter(Counters.MAPPER).increment(endTime - startTime);
+  }
+}
+```
+]
+
 == Proces 2 -- `ChartsDailySum`
+
+Proces drugi jest bardziej złożony. Składa się z jednego mappera i jednego reducera. Ponownie gromadzone są czasy spędzone w różnych częściach zadania. Proces jest odpowiedzialny za pogrupowanie i agregację danych wyjściowych poprzedniego procesu.
+
+Mapper dzieli plik CSV na kolumny, ustawia klucz na złączenie `region` i `date` a wartości na liczbę `streams`. Następnie reducer jest odpowiedzialny za zsumowanie wartości `streams` dla każdego klucza. Wartości są następnie wypisywane do pliku CSV.
+
+#v(1fr)
+
+#image("./img/Wilczur-Proces-2.drawio.png")
+
+#v(1fr)
+
+#[
+#set text(size: 8pt)
+```java
+public static class ChartsDailySumMapper extends Mapper<Object, Text, Text, LongWritable> {
+  @Override
+  protected void map(Object key, Text value, Context context)
+      throws IOException, InterruptedException {
+    long startTime = System.nanoTime();
+    String line = value.toString();
+    String[] fields = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+    String region = fields[0];
+    String date = fields[1];
+    String streams = fields[3];
+
+    String outKey = region + "!@#" + date;
+    long streamsCount = Long.parseLong(streams);
+    context.write(new Text(outKey), new LongWritable(streamsCount));
+    long endTime = System.nanoTime();
+    context.getCounter(Counters.MAPPER).increment(endTime - startTime);
+  }
+}
+```
+
+#pagebreak()
+
+```java
+public static class ChartsDailySumReducer extends Reducer<Text, LongWritable, NullWritable, Text> {
+  @Override
+  protected void reduce(Text key, Iterable<LongWritable> values, Context context)
+      throws IOException, InterruptedException {
+    long startTime = System.nanoTime();
+    String[] keyParts = key.toString().split("!@#");
+    String region = keyParts[0];
+    String date = keyParts[1];
+
+    long sum = 0;
+    for (LongWritable value : values) {
+      sum += value.get();
+    }
+
+    String output = String.join(",",
+      region,
+      date,
+      String.valueOf(sum)
+    );
+
+    context.write(NullWritable.get(), new Text(output));
+    long endTime = System.nanoTime();
+    context.getCounter(Counters.REDUCER).increment(endTime - startTime);
+  }
+}
+```
+]
 
 == Proces 3 -- `DailyCountryWeather`
 
+Proces 3 składa się z dwóch zadań Map-Reduce uruchomionych sekwencyjnie (wyjście pierwszego jest wejściem drugiego). Proces jest odpowiedzialny za złączenie danych pogodowych z pliku `daily_weather.csv` z danymi o miastach z pliku `cities.csv`. Dane są następnie grupowane według kraju i daty oraz obliczane są średnie wartości temperatury i opadów.
+
+#image("./img/Wilczur-Proces-3.drawio.png")
+
+=== `DailyCountryWeather1` (2 mappery, 1 reducer)
+
+Pierwsze zadanie odpowiedzialne jest za złączenie tabel. Przyjmuje dwa pliki wejściowe i zwraca jeden wynikowy. Mapper danych pogodowych rozdziela wiersz CSV na kolumny, następnie zwraca jako klucz `station_id` (pole, po którym łączymy tabele) oraz jako wartość pozostałe kolumny wraz ze specjalnym dopiskiem `WEATHER`, który pozwoli w reducerze odróżnić dane z tabeli pogodowej od danych z tabeli miast. Mapper danych o miastach działa analogicznie. Jako klucz zwraca `station_id`, a jako wartość pozostałe kolumny z tabeli miast oraz dopisek `CITY`.
+
+Reducer łączy dane z obu mapperów w jedną linię CSV. Warto zauważyć, że dla każdego klucza zwracane jest kilka wierszy wyjściowych -- jeden dla każdego wiersza z tabeli pogodowej.
+
+#[
+#set text(size: 8pt)
+```java
+public static class DailyCountryWeather1WeatherMapper extends Mapper<Object, Text, Text, Text> {
+    @Override
+    protected void map(Object key, Text value, Context context)
+            throws IOException, InterruptedException {
+        long startTime = System.nanoTime();
+        String line = value.toString();
+        if (line.equals("station_id,date,avg_temp_c,precipitation_mm")) {
+            return;
+        }
+        String[] fields = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+        String stationId = fields[0];
+        String date = fields[1].substring(0, 10);
+        String temperatureC = fields.length >= 3 ? fields[2] : "";
+        String precipitationMm = fields.length == 4 ? fields[3] : "";
+
+        if (date.compareTo("2017-01-01") < 0 || date.compareTo("2021-12-31") > 0) {
+            return;
+        }
+
+        context.write(new Text(stationId), new Text(String.join("!@#", "WEATHER", date, temperatureC, precipitationMm)));
+        long endTime = System.nanoTime();
+        context.getCounter(Counters.MAPPER_WEATHER).increment(endTime - startTime);
+    }
+}
+
+public static class DailyCountryWeather1CityMapper extends Mapper<Object, Text, Text, Text> {
+    @Override
+    protected void map(Object key, Text value, Context context)
+            throws IOException, InterruptedException {
+        long startTime = System.nanoTime();
+        String line = value.toString();
+        if (line.equals("station_id,city_name,country,state,iso2,iso3,latitude,longitude")) {
+            return;
+        }
+        String[] fields = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+        String stationId = fields[0];
+        String country = fields[2];
+
+        context.write(new Text(stationId), new Text(String.join("!@#", "CITY", country)));
+        long endTime = System.nanoTime();
+        context.getCounter(Counters.MAPPER_CITY).increment(endTime - startTime);
+    }
+}
+
+public static class DailyCountryWeather1Reducer extends Reducer<Text, Text, NullWritable, Text> {
+    @Override
+    protected void reduce(Text key, Iterable<Text> values, Context context)
+            throws IOException, InterruptedException {
+        long startTime = System.nanoTime();
+        String stationId = key.toString();
+        String country = null;
+        ArrayList<String> dates = new ArrayList<>();
+        ArrayList<String> temperaturesC = new ArrayList<>();
+        ArrayList<String> precipitationsMm = new ArrayList<>();
+
+        for (Text value : values) {
+            String[] fields = value.toString().split("!@#");
+            if (fields[0].equals("WEATHER")) {
+                dates.add(fields[1]);
+                temperaturesC.add(fields.length >= 3 ? fields[2] : "");
+                precipitationsMm.add(fields.length == 4 ? fields[3] : "");
+            } else if (fields[0].equals("CITY")) {
+                country = fields[1];
+            }
+        }
+
+        if (country == null) {
+            return;
+        }
+
+        for (int i = 0; i < dates.size(); i++) {
+            String date = dates.get(i);
+            String temperatureC = temperaturesC.get(i);
+            String precipitationMm = precipitationsMm.get(i);
+
+            String output = String.join(",",
+                    country,
+                    date,
+                    temperatureC,
+                    precipitationMm
+            );
+
+            context.write(NullWritable.get(), new Text(output));
+        }
+        long endTime = System.nanoTime();
+        context.getCounter(Counters.REDUCER).increment(endTime - startTime);
+    }
+}
+```
+]
+
+=== `DailyCountryWeather2` (1 mapper, 1 reducer)
+
+Drugie zadanie procesu jest odpowiedzialne za pogrupowanie po kraju i dacie oraz obliczenie średnich wartości temperatury i opadów. Mapper dzieli wiersz CSV na kolumny, ustawia klucz na złączenie pól `country` i `date`, a wartości to temperatury i opady. Następnie reducer jest odpowiedzialny za zsumowanie wartości temperatury i opadów dla każdego klucza oraz policzenie średnich. Wartości są następnie wypisywane do pliku CSV.
+
+#[
+#set text(size: 8pt)
+```java
+public static class DailyCountryWeather2Mapper extends Mapper<Object, Text, Text, Text> {
+    @Override
+    protected void map(Object key, Text value, Context context)
+            throws IOException, InterruptedException {
+        long startTime = System.nanoTime();
+        String line = value.toString();
+        String[] fields = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+
+        String country = fields[0];
+        String date = fields[1];
+        String temperatureC = fields.length >= 3 ? fields[2] : "";
+        String precipitationMm = fields.length == 4 ? fields[3] : "";
+
+        String outKey = country + "!@#" + date;
+        String outValue = temperatureC + "!@#" + precipitationMm;
+        context.write(new Text(outKey), new Text(outValue));
+        long endTime = System.nanoTime();
+        context.getCounter(Counters.MAPPER).increment(endTime - startTime);
+    }
+}
+
+public static class DailyCountryWeather2Reducer extends Reducer<Text, Text, NullWritable, Text> {
+    @Override
+    protected void reduce(Text key, Iterable<Text> values, Context context)
+            throws IOException, InterruptedException {
+        long startTime = System.nanoTime();
+        String[] keyParts = key.toString().split("!@#");
+        String country = keyParts[0];
+        String date = keyParts[1];
+
+        double temperatureSum = 0.0;
+        int temperatureCount = 0;
+        double precipitationSum = 0.0;
+        int precipitationCount = 0;
+
+        for (Text value : values) {
+            String[] valueParts = value.toString().split("!@#");
+            String temperatureC = valueParts.length >= 1 ? valueParts[0] : "";
+            if (!temperatureC.isEmpty()) {
+                temperatureSum += Double.parseDouble(temperatureC);
+                temperatureCount++;
+            }
+            String precipitationMm = valueParts.length == 2 ? valueParts[1] : "";
+            if (!precipitationMm.isEmpty()) {
+                precipitationSum += Double.parseDouble(precipitationMm);
+                precipitationCount++;
+            }
+        }
+
+        if (temperatureCount == 0) {
+            return;
+        }
+
+        double averageTemperatureC = temperatureSum / temperatureCount;
+        double averagePrecipitationMm = precipitationCount > 0 ? precipitationSum / precipitationCount : 0.0;
+
+        String output = String.join(",",
+                country,
+                date,
+                String.format("%.2f", averageTemperatureC),
+                String.format("%.2f", averagePrecipitationMm)
+        );
+        context.write(NullWritable.get(), new Text(output));
+        long endTime = System.nanoTime();
+        context.getCounter(Counters.REDUCER).increment(endTime - startTime);
+    }
+}
+```
+]
+
 == Benchmarki
+
+Dokonaliśmy pomiaru czasu wykonania każdego procesu oraz czasu spędzonego w mapperach i~reducerach w zależności od parametrów. Jako parametry do porównania przyjęliśmy:
+
+- `reducers` -- liczba reducerów (1, 2, 3);
+- `replication` -- liczba replikacji plików wejściowych (1, 2, 3);
+- `splitMb` -- rozmiar podziału pliku wejściowego w MB (128, 192, 256).
+
+Zdecydowaliśmy się nie przyjmować liczby mapperów jako parametru, ponieważ wartość ta jest jedynie sugestią dla silnika i może zostać przez niego zignorowana (wg dokumentacji#footnote(link("https://hadoop.apache.org/docs/current/api/org/apache/hadoop/mapred/JobConf.html#setNumMapTasks-int-"))). Rzeczywista liczba mapperów zależy od liczby podziałów pliku wejściowego (`InputSplits`) i łącznego rozmiaru plików wejściowych. Jako że na ten drugi współczynnik nie mamy wpływu, zdecydowaliśmy się dokonać pomiaru w zależności od rozmiaru input split.
+
+Jako baseline użyliśmy konfiguracji: 1 reducer, 3 replikacje, 128 MB podziału.
+
+Wszystkie czasy podane są w *milisekundach*, zaokrąglone do całości.
+
+#[
+#set text(size: 9pt)
+#let g(body) = text(fill: rgb("#58cf39"))[#body]
+#let r(body) = text(fill: rgb("#FF4136"))[#body]
+#align(center, table(
+  columns: 10,
+  align: right + horizon,
+  table.header(table.cell(rowspan: 2)[*Część procesu*], table.cell(colspan: 3)[*Reducery*], table.cell(colspan: 3)[*Repliki*], table.cell(colspan: 3)[*Podział [MB]*], [*`1`*], [*`2`*], [*`3`*], [*`3`*], [*`2`*], [*`1`*], [*`128`*], [*`192`*], [*`256`*]),
+  [*`ChartsFmtJob`*], [42010], g[36330], r[42388], [42010], g[38410], g[37315], [42010], r[49879], r[45850],
+  [`ChartsFmtMapper`], [80752], g[68190], r[92046], [80752], g[77898], g[70990], [80752], r[105406], r[99304],
+  [*`ChartsDailySumJob`*], [27605], g[25733], r[29237], [27605], g[25700], r[28066], [27605], r[31406], g[26581],
+  [`ChartsDailySumMapper`], [24509], g[23329], r[32315], [24509], g[24086], g[23626], [24509], r[28582], r[25345],
+  [`ChartsDailySumReducer`], [1330], r[1717], r[3107], [1330], g[1235], g[1216], [1330], g[1147], g[1323],
+  [*`DailyCountryWeather1Job`*], [19245], g[17634], r[21685], [19245], g[17937], g[18240], [19245], r[20043], r[19628],
+  [`DailyCountryWeather1WeatherMapper`], [1035], r[1103], r[1203], [1035], r[1068], r[1196], [1035], r[1122], r[1151],
+  [`DailyCountryWeather1CityMapper`], [54], g[47], r[63], [54], r[55], g[46], [54], r[65], r[67],
+  [`DailyCountryWeather1Reducer`], [759], r[1288], r[2199], [759], r[858], g[727], [759], r[770], r[1003],
+  [*`DailyCountryWeather2Job`*], [20678], r[21192], g[20456], [20678], g[18789], g[20608], [20678], r[21029], g[19024],
+  [`DailyCountryWeather2Mapper`], [894], r[1265], r[2158], [894], r[930], g[884], [894], g[867], g[865],
+  [`DailyCountryWeather2Reducer`], [821], r[1473], r[2829], [821], g[778], g[804], [821], g[755], r[859],
+))
+]
 
 #pagebreak()
 #set page(flipped: true)
