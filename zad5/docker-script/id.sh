@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/env bash
 
-flag=$1
+flag="all"
 
 if [ -z $flag ]
 then

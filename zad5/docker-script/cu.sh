@@ -94,7 +94,7 @@ services:
       - 3306:3306
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
-      - $maria_data_path:/var/lib/mysql 
+      # - $maria_data_path:/var/lib/mysql
     environment:
       MARIADB_ROOT_PASSWORD: $maria_root_password
     networks:

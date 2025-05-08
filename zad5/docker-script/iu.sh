@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/env bash
 
 flag="all"
 
@@ -11,7 +11,7 @@ echo "Start Hive service."
 
 if [ $flag = "meta" ] || [ $flag = "all" ] ; then
   echo "Initialize Hive MetaDB."
-  docker exec -it mariadb bash -c "mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql"
+  # docker exec -it mariadb bash -c "mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql"
   docker exec -it mariadb bash -c "/sh/init.sh"
 
   echo "Password is required to set Meta database and user."
