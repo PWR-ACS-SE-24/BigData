@@ -2,3 +2,4 @@
 *.pdf
 /data/
 tmp/
+__pycache__/

@@ -138,6 +138,7 @@ if __name__ == "__main__":
     upload_input_file("daily_weather_2017.csv")
     upload_input_file("cities.csv")
     upload_input_file("WDIData.csv")
+    upload_input_file("WDIData_2017.csv")
 
     upload_input_file("charts_fmt_small.csv")
     upload_input_file("charts_fmt.csv")
