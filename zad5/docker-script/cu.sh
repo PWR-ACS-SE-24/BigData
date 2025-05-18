@@ -68,6 +68,7 @@ do
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
       - '$hbase_log_path'/slave'$slave':/usr/local/hbase/logs
+      - ./hdfs-site.xml:/usr/local/hadoop/etc/hadoop/hdfs-site.xml
     networks:
       hadoop-cluster:
         ipv4_address: 10.0.2.'$(($slave + 3))'
@@ -125,6 +126,7 @@ $ip_addr
       - $hive_log_path:/usr/local/hive/logs
       - $sqoop_log_path:/usr/local/sqoop/logs
       - ../../zad7/build/libs:/root/zad7
+      - ./hdfs-site.xml:/usr/local/hadoop/etc/hadoop/hdfs-site.xml
     networks:
       hadoop-cluster:
         ipv4_address: 10.0.2.3
