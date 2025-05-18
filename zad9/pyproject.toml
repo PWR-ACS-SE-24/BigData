@@ -1,0 +1,9 @@
+[project]
+name = "zad9"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "pyhive>=0.7.0",
+    "thrift>=0.21.0",
+    "thrift-sasl>=0.4.3",
+]

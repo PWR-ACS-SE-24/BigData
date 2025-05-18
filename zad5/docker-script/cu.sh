@@ -127,6 +127,7 @@ $ip_addr
       - $sqoop_log_path:/usr/local/sqoop/logs
       - ../../zad7/build/libs:/root/zad7
       - ./hdfs-site.xml:/usr/local/hadoop/etc/hadoop/hdfs-site.xml
+      - ../../zad9:/root/zad9
     networks:
       hadoop-cluster:
         ipv4_address: 10.0.2.3
@@ -185,4 +186,7 @@ docker exec -it mariadb bash -c "chmod 755 /sh/init-hive.sql"
 rm -f workers
 rm -f regionservers
 rm -f init-hive.sql
+
+docker exec -it master bash -c "curl -LsSf https://astral.sh/uv/install.sh | sh"
+
 echo "Done."

@@ -139,6 +139,11 @@ if __name__ == "__main__":
     upload_input_file("cities.csv")
     upload_input_file("WDIData.csv")
 
+    upload_input_file("charts_fmt_small.csv")
+    upload_input_file("charts_fmt.csv")
+    upload_input_file("charts_daily_sum_small.csv")
+    upload_input_file("charts_daily_sum.csv")
+
     # fetch_artists_from_tracks("charts_2017")
     # upload_input_file("artists_from_tracks.csv")
 
