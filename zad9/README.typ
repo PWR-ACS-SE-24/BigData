@@ -355,11 +355,11 @@ Wykorzystujemy podział pliku o~rozmiarze 256 MB oraz 1 reducer.
     columns: 2,
     align: horizon + right,
     table.header([*Proces*], [*Czas wykonania [s]*]),
-    [`charts_yearly_stats`], [],
-    [`charts_daily_popularity`], [],
-    [`daily_country_weather`], [],
-    [`wdi_normalized`], [],
-    [`wdi_interpolated`], []
+    [`charts_yearly_stats`], [35.961],
+    [`charts_daily_popularity`], [16.424],
+    [`daily_country_weather`], [41.711],
+    [`wdi_normalized`], [35.547],
+    [`wdi_interpolated`], [25.698]
 ))
 
 #pagebreak()
@@ -374,8 +374,8 @@ Wykorzystujemy podział pliku o rozmiarze 256 MB oraz 1 reducer dla obu podejś�
     columns: 2,
     align: horizon + right,
     table.header([*Narzędzie*], [*Czas wykonania [s]*]),
-    [*Map-Reduce*], [],
-    [*HIVE*], []
+    [*Map-Reduce*], [39.923],
+    [*HIVE*], [41.711]
 ))
 
 === Eksperyment -- wpływ liczby reducerów na czas wykonania
@@ -388,13 +388,15 @@ Wykorzystujemy podział pliku o rozmiarze 256 MB.
     columns: 4,
     align: horizon + right,
     table.header(table.cell(rowspan: 2)[*Proces*], table.cell(colspan: 3)[*Reducery*], [*1*], [*2*], [*3*]),
-    [`charts_yearly_stats`], [], [], [],
-    [`charts_daily_popularity`], [], [], [],
-    [`daily_country_weather`], [], [], [],
-    [`wdi_normalized`], [], [], [],
-    [`wdi_interpolated`], [], [], [],
-    [*Suma*], [], [], []
+    [`charts_yearly_stats`], [35.961], [35.565], [36.802],
+    [`charts_daily_popularity`], [16.424], [18.076], [16.428],
+    [`daily_country_weather`], [41.711], [41.937], [43.301],
+    [`wdi_normalized`], [35.547], [36.705], [37.480],
+    [`wdi_interpolated`], [25.698], [27.167], [25.624],
+    [*Suma*], [155.341], [159.450], [159.635]
 ))
+
+Uruchomiliśmy również proces z 10 reducerami, co zakończyło się awarią całego systemu Hadoop.
 
 === Eksperyment -- wpływ rozmiaru podziału pliku na czas wykonania
 
@@ -403,15 +405,15 @@ Zbadano wpływ rozmiaru podziału pliku na czas wykonywania wszystkich procesów
 Wykorzystujemy 1 reducer.
 
 #align(center, table(
-    columns: 4,
+    columns: 6,
     align: horizon + right,
-    table.header(table.cell(rowspan: 2)[*Proces*], table.cell(colspan: 3)[*Rozmiar podziału pliku*], [*128 MB*], [*192 MB*], [*256 MB*]),
-    [`charts_yearly_stats`], [], [], [],
-    [`charts_daily_popularity`], [], [], [],
-    [`daily_country_weather`], [], [], [],
-    [`wdi_normalized`], [], [], [],
-    [`wdi_interpolated`], [], [], [],
-    [*Suma*], [], [], []
+    table.header(table.cell(rowspan: 2)[*Proces*], table.cell(colspan: 5)[*Rozmiar podziału pliku*], [*16 MB*], [*32 MB*], [*64 MB*], [*128 MB*], [*256 MB*]),
+    [`charts_yearly_stats`], [34.745], [36.085], [33.570], [35.630], [35.961],
+    [`charts_daily_popularity`], [15.443], [16.799], [17.641], [17.257], [16.424],
+    [`daily_country_weather`], [42.971], [40.276], [40.218], [40.556], [41.711],
+    [`wdi_normalized`], [34.134], [36.457], [34.903], [35.077], [35.547],
+    [`wdi_interpolated`], [27.099], [25.714], [26.152], [26.676], [25.698],
+    [*Suma*], [154.392], [155.331], [152.484], [155.196], [155.341]
 ))
 
 #pagebreak()
