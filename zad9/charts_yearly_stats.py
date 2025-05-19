@@ -13,9 +13,9 @@ with connect_to_hive() as cursor:
         INSERT INTO charts_yearly_stats
             SELECT
                 region,
-                YEAR(date_) as year_,
-                AVG(streams) as stream_avg,
-                STDDEV(streams) as stream_dev
+                YEAR(date_) AS year_,
+                AVG(streams) AS stream_avg,
+                STDDEV(streams) AS stream_dev
             FROM charts_daily_sum
             GROUP BY region, YEAR(date_)
             ORDER BY region, YEAR(date_)
