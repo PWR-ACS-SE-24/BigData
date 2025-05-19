@@ -23,14 +23,18 @@ def setup_output_table(
 
 
 @contextmanager
-def connect_to_hive(level=logging.INFO) -> Generator[hive.Cursor, None, None]:
+def connect_to_hive(level=logging.INFO, *, reducers: int = 1, split_mb: int = 256) -> Generator[hive.Cursor, None, None]:
     logging.basicConfig(level=level)
     print("Connecting to Hive...")
     with (
         hive.connect(
             host="localhost",
             port=10000,
-            configuration={"hive.stats.autogather": "false"},
+            configuration={
+                "hive.stats.autogather": "false",
+                "mapreduce.job.reduces": str(reducers),
+                "mapreduce.input.fileinputformat.split.maxsize": str(split_mb * 1024 * 1024),
+            },
         ) as connection,
         connection.cursor() as cursor,
     ):

@@ -345,7 +345,74 @@ Setting up table WDIData_2017...
 
 == Benchmark
 
+Wszystkie pomiary wykonano trzykrotnie i uśredniono. Wszystkie czasy są podane w sekundach.
 
+=== Czasy wykonania poszczególnych procesów
+
+Wykorzystujemy podział pliku o~rozmiarze 256 MB oraz 1 reducer.
+
+#align(center, table(
+    columns: 2,
+    align: horizon + right,
+    table.header([*Proces*], [*Czas wykonania [s]*]),
+    [`charts_yearly_stats`], [],
+    [`charts_daily_popularity`], [],
+    [`daily_country_weather`], [],
+    [`wdi_normalized`], [],
+    [`wdi_interpolated`], []
+))
+
+#pagebreak()
+
+=== Eksperyment -- porównanie HIVE z Map-Reduce na podstawie `daily_country_weather`
+
+Porównano czas wykonania dla podejścia Map-Reduce oraz HIVE dla procesu `daily_country_weather`, który był zaimplementowany w obu etapach.
+
+Wykorzystujemy podział pliku o rozmiarze 256 MB oraz 1 reducer dla obu podejść.
+
+#align(center, table(
+    columns: 2,
+    align: horizon + right,
+    table.header([*Narzędzie*], [*Czas wykonania [s]*]),
+    [*Map-Reduce*], [],
+    [*HIVE*], []
+))
+
+=== Eksperyment -- wpływ liczby reducerów na czas wykonania
+
+Zbadano wpływ liczby reducerów na czas wykonywania wszystkich procesów.
+
+Wykorzystujemy podział pliku o rozmiarze 256 MB.
+
+#align(center, table(
+    columns: 4,
+    align: horizon + right,
+    table.header(table.cell(rowspan: 2)[*Proces*], table.cell(colspan: 3)[*Reducery*], [*1*], [*2*], [*3*]),
+    [`charts_yearly_stats`], [], [], [],
+    [`charts_daily_popularity`], [], [], [],
+    [`daily_country_weather`], [], [], [],
+    [`wdi_normalized`], [], [], [],
+    [`wdi_interpolated`], [], [], [],
+    [*Suma*], [], [], []
+))
+
+=== Eksperyment -- wpływ rozmiaru podziału pliku na czas wykonania
+
+Zbadano wpływ rozmiaru podziału pliku na czas wykonywania wszystkich procesów.
+
+Wykorzystujemy 1 reducer.
+
+#align(center, table(
+    columns: 4,
+    align: horizon + right,
+    table.header(table.cell(rowspan: 2)[*Proces*], table.cell(colspan: 3)[*Rozmiar podziału pliku*], [*128 MB*], [*192 MB*], [*256 MB*]),
+    [`charts_yearly_stats`], [], [], [],
+    [`charts_daily_popularity`], [], [], [],
+    [`daily_country_weather`], [], [], [],
+    [`wdi_normalized`], [], [], [],
+    [`wdi_interpolated`], [], [], [],
+    [*Suma*], [], [], []
+))
 
 #pagebreak()
 #set page(flipped: true)
