@@ -7,3 +7,8 @@ dependencies = [
     "thrift>=0.21.0",
     "thrift-sasl>=0.4.3",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.10",
+]
