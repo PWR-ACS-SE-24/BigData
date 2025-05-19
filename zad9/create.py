@@ -46,13 +46,18 @@ with connect_to_hive(level=logging.ERROR) as cursor:
         remove_header=True,
     )
     setup_table(
+        "cities_small",
+        "station_id STRING, city_name STRING, country STRING, state STRING, iso2 STRING, iso3 STRING, lat DOUBLE, lon DOUBLE",
+        remove_header=True,
+    )
+    setup_table(
         "cities",
         "station_id STRING, city_name STRING, country STRING, state STRING, iso2 STRING, iso3 STRING, lat DOUBLE, lon DOUBLE",
         remove_header=True,
     )
     setup_table(
-        "cities_small",
-        "station_id STRING, city_name STRING, country STRING, state STRING, iso2 STRING, iso3 STRING, lat DOUBLE, lon DOUBLE",
+        "WDIData_small",
+        "country_name STRING, indicator_code STRING, y2016 DOUBLE, y2017 DOUBLE, y2018 DOUBLE, y2019 DOUBLE, y2020 DOUBLE, y2021 DOUBLE, y2022 DOUBLE",
         remove_header=True,
     )
     setup_table(
