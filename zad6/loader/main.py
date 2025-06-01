@@ -7,7 +7,10 @@ import duckdb
 from hdfs import InsecureClient
 import requests
 
-client = InsecureClient("http://10.0.2.3:9870", user="root")
+ex = os.getenv("EX", "5")
+ip = "http://10.0.2.4:9870" if ex == "10" else "http://10.0.2.3:9870"
+
+client = InsecureClient(ip, user="root")
 digests: dict[str, str] = {}
 
 def initialize() -> None:

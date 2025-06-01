@@ -1,12 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-hadoop_version=$1
-spark_version=$2
-slaves=$3
-jupyter_workspace_path=$4
-hdfs_path=$5
-hadoop_log_path=$6
-spark_log_path=$7
+hadoop_version="3.3.5"
+spark_version="3.4.0"
+slaves="3"
+jupyter_workspace_path="/tmp/spark-notebook"
+hdfs_path="/tmp/hdfs"
+hadoop_log_path="/tmp/hadoop-logs"
+spark_log_path="/tmp/spark-logs"
 
 if [ -z $spark_log_path ]
 then
@@ -58,7 +58,10 @@ do
     cgroup: host
     privileged: true
     ports:
+      - '$slave'4040:4040
       - '$slave'8042:8042
+      - '$slave'8080:8080
+      - '$slave'8088:8088
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     networks:
@@ -142,6 +145,18 @@ $ip_addr
       - "master:10.0.2.4"
 $ip_addr
 $slave_service
+  loader:
+    image: python:3.13
+    hostname: loader
+    container_name: loader
+    entrypoint: bash -c "curl -LsSf https://astral.sh/uv/install.sh | sh && tail -f /dev/null"
+    tty: true
+    networks:
+      hadoop-cluster:
+        ipv4_address: 10.0.2.100
+    volumes:
+      - ../../data:/root/data
+      - ../../zad6/loader:/root/loader
 networks:
  hadoop-cluster:
   ipam:
@@ -171,5 +186,9 @@ done
 echo "Done."
 
 rm -f workers
-./livy-start.sh
-./hadoop-start.sh start
+
+echo "Start Livy service."
+docker exec -it spark bash -c "livy-server start"
+
+echo "Start Hadoop service."
+docker exec -it master bash -c "/sh/start-all.sh"
