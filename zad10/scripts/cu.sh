@@ -3,7 +3,7 @@
 hadoop_version="3.3.5"
 spark_version="3.4.0"
 slaves="3"
-jupyter_workspace_path="/tmp/spark-notebook"
+jupyter_workspace_path="../notebooks"
 hdfs_path="/tmp/hdfs"
 hadoop_log_path="/tmp/hadoop-logs"
 spark_log_path="/tmp/spark-logs"
@@ -69,8 +69,8 @@ do
         ipv4_address: 10.0.2.'$(($slave+4))'
     extra_hosts:
       - "jupyter-lab:10.0.2.2"
-      - "spark:10.0.2.3"
-      - "master:10.0.2.4"
+      - "spark:10.0.2.4"
+      - "master:10.0.2.3"
 '$ip_addr
   if [[ ! $slave -eq $slaves ]]
   then
@@ -98,8 +98,8 @@ services:
         ipv4_address: 10.0.2.2
     extra_hosts:
       - "jupyter-lab:10.0.2.2"
-      - "spark:10.0.2.3"
-      - "master:10.0.2.4"
+      - "spark:10.0.2.4"
+      - "master:10.0.2.3"
 $ip_addr
   spark:
     image: hjben/spark:$spark_version-livy
@@ -116,11 +116,11 @@ $ip_addr
       - $spark_log_path/master:/usr/local/spark/logs 
     networks:
       hadoop-cluster:
-        ipv4_address: 10.0.2.3
+        ipv4_address: 10.0.2.4
     extra_hosts:
       - "jupyter-lab:10.0.2.2"
-      - "spark:10.0.2.3"
-      - "master:10.0.2.4"
+      - "spark:10.0.2.4"
+      - "master:10.0.2.3"
 $ip_addr
   master:
     image: hjben/hadoop:$hadoop_version-jdk1.8.0
@@ -138,11 +138,11 @@ $ip_addr
       - $hadoop_log_path:/usr/local/hadoop/logs
     networks:
       hadoop-cluster:
-        ipv4_address: 10.0.2.4
+        ipv4_address: 10.0.2.3
     extra_hosts:
       - "jupyter-lab:10.0.2.2"
-      - "spark:10.0.2.3"
-      - "master:10.0.2.4"
+      - "spark:10.0.2.4"
+      - "master:10.0.2.3"
 $ip_addr
 $slave_service
   loader:
