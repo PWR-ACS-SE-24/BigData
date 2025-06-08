@@ -1,6 +1,7 @@
+from contextlib import contextmanager
 import os
 import time
-from typing import LiteralString
+from typing import Generator, LiteralString
 from pyspark.sql import DataFrame, SparkSession
 from IPython.display import display
 
@@ -28,14 +29,20 @@ def load_table(spark: SparkSession, path: LiteralString, *, header: list[str] | 
     return df
 
 
-def process(spark: SparkSession, name: LiteralString, sql: LiteralString) -> None:
-    print(f"Processing query and saving to '/{name}/*'...")
+@contextmanager
+def bench() -> Generator[None, None, None]:
     start_time = time.time_ns()
-    df = spark.sql(sql)
-    df.write\
-      .mode("overwrite")\
-      .option("header", "true")\
-      .csv(f"/{name}")
+    yield
     end_time = time.time_ns()
     print(f"Execution time: {(end_time - start_time) / 1e9:.3f} seconds")
-    df.show()
+
+
+def process(spark: SparkSession, name: LiteralString, sql: LiteralString) -> None:
+    print(f"Processing query and saving to '/{name}/*'...")
+    with bench():
+        df = spark.sql(sql)
+        df.write\
+          .mode("overwrite")\
+          .option("header", "true")\
+          .csv(f"/{name}")
+        df.show()
