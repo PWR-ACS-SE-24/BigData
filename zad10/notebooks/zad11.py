@@ -41,8 +41,13 @@ def process(spark: SparkSession, name: LiteralString, sql: LiteralString) -> Non
     print(f"Processing query and saving to '/{name}/*'...")
     with bench():
         df = spark.sql(sql)
-        df.write\
+        df.show()
+    df.createOrReplaceTempView(name)
+    df.write\
           .mode("overwrite")\
           .option("header", "true")\
           .csv(f"/{name}")
-        df.show()
+
+
+def example(spark: SparkSession, name: LiteralString) -> None:
+    spark.sql(f"SELECT * FROM {name}").show(truncate=False, n=1000)

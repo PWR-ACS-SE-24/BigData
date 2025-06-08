@@ -151,6 +151,9 @@ if __name__ == "__main__":
     upload_input_file("api_track_to_genre_small.csv")
     upload_input_file("api_track_to_genre.csv")
 
+    upload_input_file("charts_daily_popularity_small.csv")
     upload_input_file("charts_daily_popularity.csv")
+    upload_input_file("daily_country_weather_small.csv")
     upload_input_file("daily_country_weather.csv")
+    upload_input_file("wdi_interpolated_small.csv")
     upload_input_file("wdi_interpolated.csv")
