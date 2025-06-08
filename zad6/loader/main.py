@@ -146,8 +146,7 @@ if __name__ == "__main__":
     upload_input_file("charts_daily_sum_small.csv")
     upload_input_file("charts_daily_sum.csv")
 
-    # fetch_artists_from_tracks("charts_2017")
-    # upload_input_file("artists_from_tracks.csv")
-
-    # fetch_genres_from_artists()
-    # upload_input_file("genres_from_artists.csv")
+    upload_input_file("api_track_to_artist_small.csv")
+    upload_input_file("api_track_to_artist.csv")
+    upload_input_file("api_track_to_genre_small.csv")
+    upload_input_file("api_track_to_genre.csv")
