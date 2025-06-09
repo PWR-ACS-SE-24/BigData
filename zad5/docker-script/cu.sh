@@ -178,6 +178,7 @@ $ip_addr
       - ../../zad7/build/libs:/root/zad7
       - ./hdfs-site.xml:/usr/local/hadoop/etc/hadoop/hdfs-site.xml
       - ../../zad9:/root/zad9
+      - ../../zad11/pig:/root/pig
     networks:
       hadoop-cluster:
         ipv4_address: 10.0.2.3
@@ -243,6 +244,18 @@ rm -f init-hive.sql
 
 echo "Install uv."
 docker exec -it master bash -c "curl -LsSf https://astral.sh/uv/install.sh | sh"
+
+echo "Install PIG."
+docker exec -it master bash -c 'bash -s <<'"'"'EOF'"'"'
+cd /opt &&
+wget https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.tar.gz &&
+tar -xvzf pig-0.17.0.tar.gz &&
+mv pig-0.17.0 pig &&
+echo "export PIG_HOME=/opt/pig" >> ~/.bashrc &&
+echo "export PATH=\$PIG_HOME/bin:\$PATH" >> ~/.bashrc &&
+source ~/.bashrc &&
+pig -version
+EOF'
 
 echo "Start Livy service."
 docker exec -it spark bash -c "livy-server start"
