@@ -328,6 +328,7 @@ Porównano wpływ całkowitej liczby dostępnych rdzeni (`spark.cores.max`) na c
   [`charts_genre_popularity`], [], [], [], [],
   [`output`], [], [], [], [],
   [`daily_country_weather`], [], [], [], [],
+  [*Suma*], [], [], [],
 ))
 
 === Eksperyment 3 -- wpływ partycjonowania (`sql.shuffle.partitions`)
@@ -344,6 +345,7 @@ Porównano wpływ liczby partycji do operacji agregacji, złączeń, itp. (`spar
   [`charts_genre_popularity`], [], [], [], [],
   [`output`], [], [], [], [],
   [`daily_country_weather`], [], [], [], [],
+  [*Suma*], [], [], [],
 ))
 
 #pagebreak()
@@ -362,6 +364,7 @@ Porównano wpływ pamięci dostępnej pojedynczemu egzekutorowi (`spark.executor
   [`charts_genre_popularity`], [], [], [],
   [`output`], [], [], [],
   [`daily_country_weather`], [], [], [],
+  [*Suma*], [], [], [],
 ))
 
 === Eksperyment 5 -- wpływ limitu rozgłoszenia (`sql.autoBroadcastJoinThreshold`)
@@ -378,17 +381,110 @@ Porównano wpływ limitu rozgłoszenia (`spark.sql.autoBroadcastJoinThreshold`) 
   [`charts_genre_popularity`], [], [], [], [],
   [`output`], [], [], [], [],
   [`daily_country_weather`], [], [], [], [],
+  [*Suma*], [], [], [],
 ))
 
 == Eksperymenty porównawcze
 
 === Eksperyment 6 -- Spark vs. Map-Reduce
 
+Na wspólnym klastrze uruchomiono zaimplementowany w obu zadaniach etap `daily_country_weather`, który agreguje dane pogodowe z poszczególnych stacji pogodowych do krajów i dni. Czas wykonania został uśredniony z pięciu uruchomień bez cache. Wartości w tabeli poniżej są podane w sekundach.
+
+#align(center, table(
+  align: right + horizon,
+  columns: 3,
+  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*Spark*], [*Map-Reduce*]),
+  [`daily_country_weather`], [], []
+))
+
+#pagebreak()
+
 === Eksperyment 7 -- Spark vs. HIVE
+
+Na wspólnym klastrze uruchomiono zaimplementowany w obu zadaniach etap `daily_country_weather`, który agreguje dane pogodowe z poszczególnych stacji pogodowych do krajów i dni. Czas wykonania został uśredniony z pięciu uruchomień bez cache. Wartości w tabeli poniżej są podane w sekundach.
+
+#align(center, table(
+  align: right + horizon,
+  columns: 3,
+  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*Spark*], [*Hive*]),
+  [`daily_country_weather`], [], []
+))
 
 === Eksperyment 8 -- HIVE na Map-Reduce vs. HIVE na Spark
 
+Jako silnik uruchomieniowy HIVE można użyć zarówno Map-Reduce jak i Sparka. Konfigurację zmieniamy poprzez ustawienie parametru `hive.execution.engine` na `mr` lub `spark`. Dla wszystkich etapów zaimplementowanych w HIVE porównano czasy wykonania z wykorzystaniem obu silników. Czas wykonania został uśredniony z pięciu uruchomień bez cache. Wartości w tabeli poniżej są podane w sekundach.
+
+```python
+hive_on_mr = hive.connect(
+    host="localhost",
+    port=10000,
+    configuration={"hive.execution.engine": "mr"}
+)
+
+hive_on_spark = hive.connect(
+    host="localhost",
+    port=10000,
+    configuration={"hive.execution.engine": "spark"}
+)
+```
+
+#align(center, table(
+  align: right + horizon,
+  columns: 3,
+  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*HIVE na Map-Reduce*], [*HIVE na Spark*]),
+  [`charts_daily_popularity`], [], [],
+  [`charts_yearly_stats`], [], [],
+  [`daily_country_weather`], [], [],
+  [`wdi_interpolated`], [], [],
+  [`wdi_normalized`], [], [],
+  [*Suma*], [], [],
+))
+
+#pagebreak()
+
 === Eksperyment 9 -- Spark vs. PIG
+
+Na wspólnym klastrze uruchomiono zaimplementowany w obecnym zadaniu, oraz dodatkowo na PIG, etap `daily_country_weather`, który agreguje dane pogodowe z poszczególnych stacji pogodowych do krajów i dni.
+
+Poniżej podano implementację etapu *`daily_country_weather` w PIG*:
+#align(center)[
+#set text(size: 10pt)
+```pig
+daily_weather = LOAD '/input/daily_weather_2017.csv' USING PigStorage(',') 
+    AS (station_id:chararray, date:chararray, avg_temp_c:double, precipitation_mm:double);
+cities = LOAD '/input/cities.csv' USING PigStorage(',')
+    AS (station_id:chararray, city_name:chararray, country:chararray, state:chararray, iso2::chararray, iso3::chararray, latitude::double, longitude::double);
+filtered_weather = FILTER daily_weather BY (date >= '2017-01-01') AND (date <= '2021-12-31');
+joined = JOIN filtered_weather BY station_id, cities BY station_id;
+grouped = GROUP joined BY (cities::country, filtered_weather::date);
+aggregated = FOREACH grouped GENERATE
+    group.country AS country,
+    group.date AS date,
+    AVG(joined.filtered_weather::avg_temp_c) AS avg_temp_c,
+    AVG(joined.filtered_weather::precipitation_mm) AS avg_precipitation_mm;
+coalesced = FOREACH aggregated GENERATE
+    country,
+    date,
+    avg_temp_c,
+    ( (avg_precipitation_mm IS NULL) ? 0.0 : avg_precipitation_mm ) AS precipitation_mm;
+final = FILTER coalesced BY avg_temp_c IS NOT NULL;
+ordered = ORDER final BY country, date;
+DUMP ordered;
+```
+]
+
+Przetwarzanie jest widoczne w panelu Hadoop:
+
+#align(center, image("img/piglatin.png", width: 75%))
+
+Czas wykonania został uśredniony z pięciu uruchomień bez cache. \ Wartości w tabeli poniżej są podane w sekundach.
+
+#align(center, table(
+  align: right + horizon,
+  columns: 3,
+  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*Spark*], [*PIG*]),
+  [`daily_country_weather`], [], []
+))
 
 #pagebreak()
 #set page(flipped: true, margin: 0.5cm)
@@ -727,6 +823,8 @@ Porównano wpływ limitu rozgłoszenia (`spark.sql.autoBroadcastJoinThreshold`) 
 ```
 ]
 ])
+#v(-6cm)
+#place(image("img/flaga.png", width: 25%), dx: 13.5cm)
 
 #pagebreak()
 
