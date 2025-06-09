@@ -1,9 +1,12 @@
 #!/bin/env bash
 
 hadoop_version="3.3.0"
+spark_version="3.4.0"
+jupyter_workspace_path="../../zad10/notebooks"
 slaves="3"
-hdfs_path="/tmp/hadoop"
+hdfs_path="/tmp/hdfs"
 hadoop_log_path="/tmp/hadoop_logs"
+spark_log_path="/tmp/spark_logs"
 hbase_log_path="/tmp/hbase_logs"
 hive_log_path="/tmp/hive_logs"
 sqoop_log_path="/tmp/sqoop_logs"
@@ -51,7 +54,7 @@ EOF
 
 for slave in $(seq 1 $slaves)
 do
-  ip_addr+='      - "'slave$slave':10.0.2.'$(($slave + 3))'"
+  ip_addr+='      - "'slave$slave':10.0.2.'$(($slave + 4))'"
 '
 done
 
@@ -65,16 +68,22 @@ do
     privileged: true
     ports:
       - '$((16029 + $slave))':16030
+      - '$slave'4040:4040
+      - '$slave'8042:8042
+      - '$slave'8080:8080
+      - '$slave'8088:8088
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
       - '$hbase_log_path'/slave'$slave':/usr/local/hbase/logs
       - ./hdfs-site.xml:/usr/local/hadoop/etc/hadoop/hdfs-site.xml
     networks:
       hadoop-cluster:
-        ipv4_address: 10.0.2.'$(($slave + 3))'
+        ipv4_address: 10.0.2.'$(($slave+4))'
     extra_hosts:
       - "mariadb:10.0.2.2"
       - "master:10.0.2.3"
+      - "spark:10.0.2.4"
+      - "jupyter-lab:10.0.2.10"
 '$ip_addr
   if [[ ! $slave -eq $slaves ]]
   then
@@ -85,6 +94,26 @@ done
 
 cat << EOF > docker-compose.yml
 services:
+  jupyter-lab:
+    image: hjben/jupyter-lab:spark-$spark_version
+    hostname: jupyter-lab
+    container_name: jupyter-lab
+    cgroup: host
+    privileged: true
+    ports:
+      - 8888:8888
+      - 4040-4044:4040-4044
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - $jupyter_workspace_path:/root/workspace
+    networks:
+      hadoop-cluster:
+        ipv4_address: 10.0.2.10
+    extra_hosts:
+      - "jupyter-lab:10.0.2.10"
+      - "spark:10.0.2.4"
+      - "master:10.0.2.3"
+$ip_addr
   mariadb:
     image: hjben/mariadb:10.5
     hostname: mariadb
@@ -103,6 +132,27 @@ services:
         ipv4_address: 10.0.2.2
     extra_hosts:
       - "mariadb:10.0.2.2"
+      - "master:10.0.2.3"
+$ip_addr
+  spark:
+    image: hjben/spark:$spark_version-livy
+    hostname: spark
+    container_name: spark
+    cgroup: host
+    privileged: true
+    ports:
+      - 8080-8081:8080-8081
+      - 8998:8998
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - $jupyter_workspace_path:/root/workspace
+      - $spark_log_path/master:/usr/local/spark/logs 
+    networks:
+      hadoop-cluster:
+        ipv4_address: 10.0.2.4
+    extra_hosts:
+      - "jupyter-lab:10.0.2.10"
+      - "spark:10.0.2.4"
       - "master:10.0.2.3"
 $ip_addr
   master:
@@ -134,6 +184,8 @@ $ip_addr
     extra_hosts:
       - "mariadb:10.0.2.2"
       - "master:10.0.2.3"
+      - "jupyter-lab:10.0.2.10"
+      - "spark:10.0.2.4"
 $ip_addr
 $slave_service
   loader:
@@ -158,9 +210,9 @@ EOF
 echo "Done."
 
 echo "Docker-compose container run."
-# echo "Remove old containers."
-# docker-compose down --remove-orphans
-# sleep 1
+echo "Remove old containers."
+docker-compose down --remove-orphans
+sleep 1
 
 echo "Create new containers."
 docker compose up -d
@@ -168,18 +220,20 @@ sleep 1
 
 docker cp ./workers master:/usr/local/hadoop/etc/hadoop/workers
 docker cp ./regionservers master:/usr/local/hbase/conf/regionservers
+docker exec -it master bash -c "rm -rf /run/nologin"
 for slave in $(seq 1 $slaves)
 do
   docker cp ./workers slave$slave:/usr/local/hadoop/etc/hadoop/workers
   docker cp ./regionservers slave$slave:/usr/local/hbase/conf/regionservers
+  docker exec -it slave$slave bash -c "rm -rf /run/nologin"
 done
 
+echo "Start HIVE service."
 cat << EOF > init-hive.sql
 create database hive;
 create user hive@'%' identified by 'hive';
 grant all privileges on hive.* to hive@'%';
 EOF
-
 docker cp init-hive.sql mariadb:/sh/
 docker exec -it mariadb bash -c "chmod 755 /sh/init-hive.sql"
 
@@ -187,6 +241,13 @@ rm -f workers
 rm -f regionservers
 rm -f init-hive.sql
 
+echo "Install uv."
 docker exec -it master bash -c "curl -LsSf https://astral.sh/uv/install.sh | sh"
+
+echo "Start Livy service."
+docker exec -it spark bash -c "livy-server start"
+
+echo "Start Hadoop service."
+docker exec -it master bash -c "/sh/start-all.sh"
 
 echo "Done."
