@@ -386,7 +386,9 @@ Porównano wpływ limitu rozgłoszenia (`spark.sql.autoBroadcastJoinThreshold`) 
 
 === Eksperyment 7 -- Spark vs. HIVE
 
-=== Eksperyment 8 -- Spark vs. PIG
+=== Eksperyment 8 -- HIVE na Map-Reduce vs. HIVE na Spark
+
+=== Eksperyment 9 -- Spark vs. PIG
 
 #pagebreak()
 #set page(flipped: true, margin: 0.5cm)
