@@ -135,7 +135,7 @@ ORDER BY region, date
 
 == Proces 4 -- `charts_genre_popularity`
 
-Proces czwarty normalizuje liczby wyświetleń utworów na popularności (z zakresu 0 do 1), dzieląc liczby odtworzeń dla poszczególnych gatunków przez łączną liczbę odtworzeń z tego dnia i tego regionu. Wartość popularności 0.25 oznacza więc, że dany gatunek stanowi 25% wszystkich odtworzeń utworów tego dnia w tym regionie. Wskaźniki popularności nie sumują się do 1, ponieważ analizujemy tylko 20 najpopularniejszych gatunków, a nie wszystkie.
+Proces czwarty normalizuje liczby wyświetleń utworów na popularności (z zakresu 0 do 1), dzieląc liczby odtworzeń dla poszczególnych gatunków przez łączną liczbę odtworzeń z tego dnia i tego regionu. Wartość popularności 0.25 oznacza więc, że dany gatunek stanowi 25% wszystkich odtworzeń utworów tego dnia w tym regionie. Wskaźniki popularności nie sumują się do 1.
 
 *Wejścia:*
 - `charts_daily_genres` -- tabela zawierająca dane o liczbie odtworzeń utworów z list przebojów, pogrupowane po regionach i dniach, z gatunkami w kolumnach;
@@ -355,7 +355,7 @@ Porównano wpływ pamięci dostępnej pojedynczemu egzekutorowi (`spark.executor
 #align(center, table(
   align: right + horizon,
   columns: 4,
-  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 3)[*Czas wykonania [s]*], [*$frac(1, 2)$ GB*], [*1 GB*], [*2 GB*]),
+  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 3)[*Czas wykonania [s]*], [*½ GB*], [*1 GB*], [*2 GB*]),
   [`charts_artists`], [], [], [],
   [`charts_genres`], [], [], [],
   [`charts_daily_genres`], [], [], [],
@@ -365,6 +365,20 @@ Porównano wpływ pamięci dostępnej pojedynczemu egzekutorowi (`spark.executor
 ))
 
 === Eksperyment 5 -- wpływ limitu rozgłoszenia (`sql.autoBroadcastJoinThreshold`)
+
+Porównano wpływ limitu rozgłoszenia (`spark.sql.autoBroadcastJoinThreshold`) na czas wykonywania poszczególnych etapów przetwarzania danych. Wyniki podane w sekundach i uśrednione przy pięciu uruchomieniach bez cache zostały zebrane w tabeli poniżej.
+
+#align(center, table(
+  align: right + horizon,
+  columns: 5,
+  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 4)[*Czas wykonania [s]*], [*5 MB*], [*10 MB*], [*15 MB*], [*20 MB*]),
+  [`charts_artists`], [], [], [], [],
+  [`charts_genres`], [], [], [], [],
+  [`charts_daily_genres`], [], [], [], [],
+  [`charts_genre_popularity`], [], [], [], [],
+  [`output`], [], [], [], [],
+  [`daily_country_weather`], [], [], [], [],
+))
 
 == Eksperymenty porównawcze
 
