@@ -5,7 +5,7 @@ from typing import Generator, LiteralString
 from pyspark.sql import DataFrame, SparkSession
 from IPython.display import display
 
-def connect(*, cores_max: int = 4, shuffle_partitions: int = 5, executor_memory: int = 1024, broadcast_threshold: int = 10) -> SparkSession:
+def connect(*, cores_max: int = 4, shuffle_partitions: int = 5, executor_memory: int = 2024, broadcast_threshold: int = 10) -> SparkSession:
     print("Connecting to Spark...")
     spark = SparkSession.builder\
         .appName("Zad11")\

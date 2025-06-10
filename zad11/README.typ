@@ -360,14 +360,16 @@ Porównano wpływ pamięci dostępnej pojedynczemu egzekutorowi (`spark.executor
   align: right + horizon,
   columns: 4,
   table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 3)[*Czas wykonania [s]*], [*½ GB*], [*1 GB*], [*2 GB*]),
-  [`charts_artists`], [], [6.589], [],
-  [`charts_genres`], [], [7.288], [],
-  [`charts_daily_genres`], [], [18.915], [],
-  [`charts_genre_popularity`], [], [3.381], [],
-  [`output`], [], [6.235], [],
-  [`daily_country_weather`], [], [5.935], [],
-  [*Suma*], [], [48.343], [],
+  [`charts_artists`], [6.722], [6.589], [6.817],
+  [`charts_genres`], [7.305], [7.288], [7.820],
+  [`charts_daily_genres`], [18.774], [18.915], [18.468],
+  [`charts_genre_popularity`], [3.944], [3.381], [3.345],
+  [`output`], [6.083], [6.235], [6.087],
+  [`daily_country_weather`], [6.374], [5.935], [6.279],
+  [*Suma*], [49.202], [48.343], [48.816],
 ))
+
+Nie zauważono wpływu dostępnej pamięci na czas wykonywania, być może zbiory danych mieściły się nawet przy najmniejszym ustawieniu.
 
 === Eksperyment 5 -- wpływ limitu rozgłoszenia (`sql.autoBroadcastJoinThreshold`)
 
@@ -377,14 +379,16 @@ Porównano wpływ limitu rozgłoszenia (`spark.sql.autoBroadcastJoinThreshold`) 
   align: right + horizon,
   columns: 4,
   table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 3)[*Czas wykonania [s]*], [*5 MB*], [*10 MB*], [*-1 (brak)*]),
-  [`charts_artists`], [], [6.589], [],
-  [`charts_genres`], [], [7.288], [],
-  [`charts_daily_genres`], [], [18.915], [],
-  [`charts_genre_popularity`], [], [3.381], [],
-  [`output`], [], [6.235], [],
-  [`daily_country_weather`], [], [5.935], [],
-  [*Suma*], [], [48.343], [],
+  [`charts_artists`], [10.145], [6.589], [10.077],
+  [`charts_genres`], [8.731], [7.288], [10.376],
+  [`charts_daily_genres`], [22.021], [18.915], [15.703],
+  [`charts_genre_popularity`], [2.278], [3.381], [3.603],  
+  [`output`], [5.169], [6.235], [6.257],
+  [`daily_country_weather`], [5.182], [5.935], [5.676],
+  [*Suma*], [53.526], [48.343], [51.692],
 ))
+
+#pagebreak()
 
 == Eksperymenty porównawcze
 
@@ -399,8 +403,6 @@ Na wspólnym klastrze uruchomiono zaimplementowany w obu zadaniach etap `daily_c
   [`daily_country_weather`], [4.396], [39.923]
 ))
 
-#pagebreak()
-
 === Eksperyment 7 -- Spark vs. HIVE
 
 Na wspólnym klastrze uruchomiono zaimplementowany w obu zadaniach etap `daily_country_weather`, który agreguje dane pogodowe z poszczególnych stacji pogodowych do krajów i dni. Czas wykonania został uśredniony z pięciu uruchomień bez cache. Wartości w tabeli poniżej są podane w sekundach.
@@ -412,39 +414,39 @@ Na wspólnym klastrze uruchomiono zaimplementowany w obu zadaniach etap `daily_c
   [`daily_country_weather`], [4.396], [49.124]
 ))
 
-=== Eksperyment 8 -- HIVE na Map-Reduce vs. HIVE na Spark
+// === Eksperyment 8 -- HIVE na Map-Reduce vs. HIVE na Spark
 
-Jako silnik uruchomieniowy HIVE można użyć zarówno Map-Reduce jak i Sparka. Konfigurację zmieniamy poprzez ustawienie parametru `hive.execution.engine` na `mr` lub `spark`. Dla wszystkich etapów zaimplementowanych w HIVE porównano czasy wykonania z wykorzystaniem obu silników. Czas wykonania został uśredniony z pięciu uruchomień bez cache. Wartości w tabeli poniżej są podane w sekundach.
+// Jako silnik uruchomieniowy HIVE można użyć zarówno Map-Reduce jak i Sparka. Konfigurację zmieniamy poprzez ustawienie parametru `hive.execution.engine` na `mr` lub `spark`. Dla wszystkich etapów zaimplementowanych w HIVE porównano czasy wykonania z wykorzystaniem obu silników. Czas wykonania został uśredniony z pięciu uruchomień bez cache. Wartości w tabeli poniżej są podane w sekundach.
 
-```python
-hive_on_mr = hive.connect(
-    host="localhost",
-    port=10000,
-    configuration={"hive.execution.engine": "mr"}
-)
+// ```python
+// hive_on_mr = hive.connect(
+//     host="localhost",
+//     port=10000,
+//     configuration={"hive.execution.engine": "mr"}
+// )
 
-hive_on_spark = hive.connect(
-    host="localhost",
-    port=10000,
-    configuration={"hive.execution.engine": "spark"}
-)
-```
+// hive_on_spark = hive.connect(
+//     host="localhost",
+//     port=10000,
+//     configuration={"hive.execution.engine": "spark"}
+// )
+// ```
 
-#align(center, table(
-  align: right + horizon,
-  columns: 3,
-  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*HIVE na Map-Reduce*], [*HIVE na Spark*]),
-  [`charts_yearly_stats`], [41.907], [],
-  [`charts_daily_popularity`], [20.738], [],
-  [`daily_country_weather`], [49.124], [],
-  [`wdi_normalized`], [42.663], [], 
-  [`wdi_interpolated`], [33.670], [],
-  [*Suma*], [188.102], [],
-))
+// #align(center, table(
+//   align: right + horizon,
+//   columns: 3,
+//   table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*HIVE na Map-Reduce*], [*HIVE na Spark*]),
+//   [`charts_yearly_stats`], [41.907], [],
+//   [`charts_daily_popularity`], [20.738], [],
+//   [`daily_country_weather`], [49.124], [],
+//   [`wdi_normalized`], [42.663], [], 
+//   [`wdi_interpolated`], [33.670], [],
+//   [*Suma*], [188.102], [],
+// ))
 
-#pagebreak()
+// #pagebreak()
 
-=== Eksperyment 9 -- Spark vs. PIG
+=== Eksperyment 8 -- Spark vs. PIG
 
 Na wspólnym klastrze uruchomiono zaimplementowany w obecnym zadaniu, oraz dodatkowo na PIG, etap `daily_country_weather`, który agreguje dane pogodowe z poszczególnych stacji pogodowych do krajów i dni.
 
@@ -474,6 +476,8 @@ ordered = ORDER final BY country, date;
 DUMP ordered;
 ```
 ]
+
+#pagebreak()
 
 Przetwarzanie jest widoczne w panelu Hadoop:
 

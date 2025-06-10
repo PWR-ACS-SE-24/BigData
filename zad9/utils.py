@@ -31,10 +31,10 @@ def connect_to_hive(level=logging.INFO, *, reducers: int = 1, split_mb: int = 25
             host="localhost",
             port=10000,
             configuration={
-                "hive.execution.engine": "spark",
+                # "hive.execution.engine": "spark",
                 "hive.stats.autogather": "false",
-                # "mapreduce.job.reduces": str(reducers),
-                # "mapreduce.input.fileinputformat.split.maxsize": str(split_mb * 1024 * 1024),
+                "mapreduce.job.reduces": str(reducers),
+                "mapreduce.input.fileinputformat.split.maxsize": str(split_mb * 1024 * 1024),
             },
         ) as connection,
         connection.cursor() as cursor,
