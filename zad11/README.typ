@@ -303,6 +303,8 @@ ORDER BY c.country, w.date
 
 == Eksperymenty w Spark
 
+W poniższych eksperymentach, o ile na zaznaczono inaczej, wykorzystano konfigurację `spark.cores.max = 4`, `spark.sql.shuffle.partitions = 5`, `spark.executor.memory = 1GB` oraz `spark.sql.autoBroadcastJoinThreshold = 10MB`.
+
 === Eksperyment 1 -- porównanie SQL i DataFrames
 
 Oba interfejsy programistyczne zostały wykorzystane jedynie w jednym etapie, więc to na nim bazujemy ich porównanie. Czasy wykonania zostały uśrednione z pięciu uruchomień, bez cache. Porównano wyniki wykonywania w obu środowiskach i były one w pełni zgodne.
@@ -311,7 +313,7 @@ Oba interfejsy programistyczne zostały wykorzystane jedynie w jednym etapie, wi
   align: right + horizon,
   columns: 3,
   table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*SQL*], [*DataFrames*]),
-  [`daily_country_weather`], [], []
+  [`daily_country_weather`], [5.935], [4.396]
 ))
 
 === Eksperyment 2 -- wpływ liczby dostępnych rdzeni (`cores.max`)
@@ -320,15 +322,15 @@ Porównano wpływ całkowitej liczby dostępnych rdzeni (`spark.cores.max`) na c
 
 #align(center, table(
   align: right + horizon,
-  columns: 5,
-  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 4)[*Czas wykonania [s]*], [*1 rdzeń*], [*2 rdzenie*], [*4 rdzenie*], [*8 rdzeni*]),
-  [`charts_artists`], [], [], [], [],
-  [`charts_genres`], [], [], [], [],
-  [`charts_daily_genres`], [], [], [], [],
-  [`charts_genre_popularity`], [], [], [], [],
-  [`output`], [], [], [], [],
-  [`daily_country_weather`], [], [], [], [],
-  [*Suma*], [], [], [],
+  columns: 4,
+  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 3)[*Czas wykonania [s]*], [*1 rdzeń*], [*2 rdzenie*], [*4 rdzenie*]),
+  [`charts_artists`], [13.518], [11.639], [6.589],
+  [`charts_genres`], [11.828], [10.731], [7.288],
+  [`charts_daily_genres`], [28.657], [21.292], [18.915],
+  [`charts_genre_popularity`], [6.376], [3.461], [3.381],
+  [`output`], [8.459], [7.091], [6.235],
+  [`daily_country_weather`], [11.050], [6.937], [5.935],
+  [*Suma*], [79.888], [61.151], [48.343],
 ))
 
 === Eksperyment 3 -- wpływ partycjonowania (`sql.shuffle.partitions`)
@@ -337,15 +339,15 @@ Porównano wpływ liczby partycji do operacji agregacji, złączeń, itp. (`spar
 
 #align(center, table(
   align: right + horizon,
-  columns: 5,
-  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 4)[*Czas wykonania [s]*], [*1 partycja*], [*3 partycje*], [*5 partycji*], [*7 partycji*]),
-  [`charts_artists`], [], [], [], [],
-  [`charts_genres`], [], [], [], [],
-  [`charts_daily_genres`], [], [], [], [],
-  [`charts_genre_popularity`], [], [], [], [],
-  [`output`], [], [], [], [],
-  [`daily_country_weather`], [], [], [], [],
-  [*Suma*], [], [], [],
+  columns: 4,
+  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 3)[*Czas wykonania [s]*], [*3 partycje*], [*5 partycji*], [*7 partycji*]),
+  [`charts_artists`], [8.139], [6.589], [7.559],
+  [`charts_genres`], [7.727], [7.288], [9.610],
+  [`charts_daily_genres`], [20.247], [18.915], [21.631],
+  [`charts_genre_popularity`], [2.769], [3.381], [3.065],
+  [`output`], [6.934], [6.235], [7.127],
+  [`daily_country_weather`], [7.386], [5.935], [8.476],
+  [*Suma*], [53.202], [48.343], [57.468],
 ))
 
 #pagebreak()
@@ -358,30 +360,30 @@ Porównano wpływ pamięci dostępnej pojedynczemu egzekutorowi (`spark.executor
   align: right + horizon,
   columns: 4,
   table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 3)[*Czas wykonania [s]*], [*½ GB*], [*1 GB*], [*2 GB*]),
-  [`charts_artists`], [], [], [],
-  [`charts_genres`], [], [], [],
-  [`charts_daily_genres`], [], [], [],
-  [`charts_genre_popularity`], [], [], [],
-  [`output`], [], [], [],
-  [`daily_country_weather`], [], [], [],
-  [*Suma*], [], [], [],
+  [`charts_artists`], [], [6.589], [],
+  [`charts_genres`], [], [7.288], [],
+  [`charts_daily_genres`], [], [18.915], [],
+  [`charts_genre_popularity`], [], [3.381], [],
+  [`output`], [], [6.235], [],
+  [`daily_country_weather`], [], [5.935], [],
+  [*Suma*], [], [48.343], [],
 ))
 
 === Eksperyment 5 -- wpływ limitu rozgłoszenia (`sql.autoBroadcastJoinThreshold`)
 
-Porównano wpływ limitu rozgłoszenia (`spark.sql.autoBroadcastJoinThreshold`) na czas wykonywania poszczególnych etapów przetwarzania danych. Wyniki podane w sekundach i uśrednione przy pięciu uruchomieniach bez cache zostały zebrane w tabeli poniżej.
+Porównano wpływ limitu rozgłoszenia (`spark.sql.autoBroadcastJoinThreshold`) na czas wykonywania poszczególnych etapów przetwarzania danych. Wyniki podane w sekundach i uśrednione przy pięciu uruchomieniach bez cache zostały zebrane w tabeli poniżej. Wartość `-1` oznacza brak limitu.
 
 #align(center, table(
   align: right + horizon,
-  columns: 5,
-  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 4)[*Czas wykonania [s]*], [*5 MB*], [*10 MB*], [*15 MB*], [*20 MB*]),
-  [`charts_artists`], [], [], [], [],
-  [`charts_genres`], [], [], [], [],
-  [`charts_daily_genres`], [], [], [], [],
-  [`charts_genre_popularity`], [], [], [], [],
-  [`output`], [], [], [], [],
-  [`daily_country_weather`], [], [], [], [],
-  [*Suma*], [], [], [],
+  columns: 4,
+  table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 3)[*Czas wykonania [s]*], [*5 MB*], [*10 MB*], [*-1 (brak)*]),
+  [`charts_artists`], [], [6.589], [],
+  [`charts_genres`], [], [7.288], [],
+  [`charts_daily_genres`], [], [18.915], [],
+  [`charts_genre_popularity`], [], [3.381], [],
+  [`output`], [], [6.235], [],
+  [`daily_country_weather`], [], [5.935], [],
+  [*Suma*], [], [48.343], [],
 ))
 
 == Eksperymenty porównawcze
@@ -394,7 +396,7 @@ Na wspólnym klastrze uruchomiono zaimplementowany w obu zadaniach etap `daily_c
   align: right + horizon,
   columns: 3,
   table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*Spark*], [*Map-Reduce*]),
-  [`daily_country_weather`], [], []
+  [`daily_country_weather`], [4.396], [39.923]
 ))
 
 #pagebreak()
@@ -407,7 +409,7 @@ Na wspólnym klastrze uruchomiono zaimplementowany w obu zadaniach etap `daily_c
   align: right + horizon,
   columns: 3,
   table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*Spark*], [*Hive*]),
-  [`daily_country_weather`], [], []
+  [`daily_country_weather`], [4.396], [49.124]
 ))
 
 === Eksperyment 8 -- HIVE na Map-Reduce vs. HIVE na Spark
@@ -432,12 +434,12 @@ hive_on_spark = hive.connect(
   align: right + horizon,
   columns: 3,
   table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*HIVE na Map-Reduce*], [*HIVE na Spark*]),
-  [`charts_daily_popularity`], [], [],
-  [`charts_yearly_stats`], [], [],
-  [`daily_country_weather`], [], [],
-  [`wdi_interpolated`], [], [],
-  [`wdi_normalized`], [], [],
-  [*Suma*], [], [],
+  [`charts_yearly_stats`], [41.907], [],
+  [`charts_daily_popularity`], [20.738], [],
+  [`daily_country_weather`], [49.124], [],
+  [`wdi_normalized`], [42.663], [], 
+  [`wdi_interpolated`], [33.670], [],
+  [*Suma*], [188.102], [],
 ))
 
 #pagebreak()
@@ -483,7 +485,7 @@ Czas wykonania został uśredniony z pięciu uruchomień bez cache. \ Wartości 
   align: right + horizon,
   columns: 3,
   table.header(table.cell(rowspan: 2)[*Etap*], table.cell(colspan: 2)[*Czas wykonania [s]*], [*Spark*], [*PIG*]),
-  [`daily_country_weather`], [], []
+  [`daily_country_weather`], [4.396], [85.355]
 ))
 
 #pagebreak()

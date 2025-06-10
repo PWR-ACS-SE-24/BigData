@@ -5,13 +5,15 @@ from typing import Generator, LiteralString
 from pyspark.sql import DataFrame, SparkSession
 from IPython.display import display
 
-def connect() -> SparkSession:
+def connect(*, cores_max: int = 4, shuffle_partitions: int = 5, executor_memory: int = 1024, broadcast_threshold: int = 10) -> SparkSession:
     print("Connecting to Spark...")
     spark = SparkSession.builder\
         .appName("Zad11")\
         .master("yarn")\
-        .config("spark.cores.max", "4")\
-        .config("spark.sql.shuffle.partitions", "5")\
+        .config("spark.cores.max", str(cores_max))\
+        .config("spark.sql.shuffle.partitions", str(shuffle_partitions))\
+        .config("spark.executor.memory", f"{executor_memory}m")\
+        .config("spark.sql.autoBroadcastJoinThreshold", str(broadcast_threshold * 1024 * 1024) if broadcast_threshold > 0 else -1)\
         .getOrCreate()
     display(spark)
     return spark
@@ -41,7 +43,8 @@ def process(spark: SparkSession, name: LiteralString, sql: LiteralString) -> Non
     print(f"Processing query and saving to '/{name}/*'...")
     with bench():
         df = spark.sql(sql)
-        df.show()
+        df.count()
+    df.show()
     df.createOrReplaceTempView(name)
     df.write\
           .mode("overwrite")\
