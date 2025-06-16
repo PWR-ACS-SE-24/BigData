@@ -42,19 +42,19 @@ Tabela poniżej przedstawia, jakie etapy zostały zrealizowane w jakiej technolo
   table(
     align: center + horizon,
     columns: (auto, 80pt, 80pt, 80pt, 80pt),
-    tech_header(),
-    [`charts_fmt`], ye, no, no, no,
-    [`charts_artists`], no, no, ye, no,
-    [`charts_genres`], no, no, ye, no,
-    [`charts_daily_genres`], no, no, ye, no,
-    [`charts_daily_sum`], ye, no, no, no,
-    [`charts_yearly_stats`], no, ye, no, no,
-    [`charts_genre_popularity`], no, no, ye, no,
-    [`charts_daily_popularity`], no, ye, no, no,
-    [`output`], no, no, ye, no,
-    [`daily_country_weather`], ye, ye, ye, ye,
-    [`wdi_normalized`], no, ye, no, no,
-    [`wdi_interpolated`], no, ye, no, no,
+    tech_header(), [`charts_fmt`], ye, no, no,
+    no, [`charts_artists`], no, no, ye,
+    no, [`charts_genres`], no, no, ye,
+    no, [`charts_daily_genres`], no, no, ye,
+    no, [`charts_daily_sum`], ye, no, no,
+    no, [`charts_yearly_stats`], no, ye, no,
+    no, [`charts_genre_popularity`], no, no, ye,
+    no, [`charts_daily_popularity`], no, ye, no,
+    no, [`output`], no, no, ye,
+    no, [`daily_country_weather`], ye, ye, ye,
+    ye, [`wdi_normalized`], no, ye, no,
+    no, [`wdi_interpolated`], no, ye, no,
+    no,
   ),
 )
 
@@ -67,19 +67,19 @@ Poniżej przedstawiono wydajność poszczególnych technologii w kontekście ró
   table(
     align: center + horizon,
     columns: (auto, 80pt, 80pt, 80pt, 80pt),
-    tech_header(),
-    [`charts_fmt`], [42.010], na, na, na,
-    [`charts_artists`], na, na, [6.589], na,
-    [`charts_genres`], na, na, [7.288], na,
-    [`charts_daily_genres`], na, na, [18.915], na,
-    [`charts_daily_sum`], [27.605], na, na, na,
-    [`charts_yearly_stats`], na, [35.961], na, na,
-    [`charts_genre_popularity`], na, na, [3.381], na,
-    [`charts_daily_popularity`], na, [16.424], na, na,
-    [`output`], na, na, [6.235], na,
-    [`daily_country_weather`], [39.923], [41.711], [5.935], [85.355],
-    [`wdi_normalized`], na, [35.547], na, na,
-    [`wdi_interpolated`], na, [25.698], na, na,
+    tech_header(), [`charts_fmt`], [42.010], na, na,
+    na, [`charts_artists`], na, na, [6.589],
+    na, [`charts_genres`], na, na, [7.288],
+    na, [`charts_daily_genres`], na, na, [18.915],
+    na, [`charts_daily_sum`], [27.605], na, na,
+    na, [`charts_yearly_stats`], na, [35.961], na,
+    na, [`charts_genre_popularity`], na, na, [3.381],
+    na, [`charts_daily_popularity`], na, [16.424], na,
+    na, [`output`], na, na, [6.235],
+    na, [`daily_country_weather`], [39.923], [41.711], [5.935],
+    [85.355], [`wdi_normalized`], na, [35.547], na,
+    na, [`wdi_interpolated`], na, [25.698], na,
+    na,
   ),
 )
 
@@ -106,18 +106,18 @@ Aby ocenić subiektywne doświadczenia dotyczące pracy z poszczególnymi techno
   table(
     align: center + horizon,
     columns: (auto, 80pt, 80pt, 80pt, 80pt),
-    tech_header(head: "Aspekt"),
-    [*Instalacja*], mi, no, ye, ye,
-    [*Konfiguracja*], mi, ye, mi, ye,
-    [*Dokumentacja*], no, mi, ye, no,
-    [*Interfejs (API)*], no, ye, ye, mi,
-    [*Uniwersalność*], no, mi, ye, no,
-    [*Inicjalizacja*], no, ye, no, mi,
-    [*Wydajność*], mi, mi, ye, no,
-    [*Stabilność*], no, mi, ye, ye,
-    [*Debugowanie*], no, mi, ye, ye,
-    [*Dashboard (GUI)*], ye, mi, mi, no,
-    [*Podsumowanie*], [*2.5* / 10], [*6* / 10], [*8* / 10], [*5* / 10],
+    tech_header(head: "Aspekt"), [*Instalacja*], mi, no, ye,
+    ye, [*Konfiguracja*], mi, ye, mi,
+    ye, [*Dokumentacja*], no, mi, ye,
+    no, [*Interfejs (API)*], no, ye, ye,
+    mi, [*Uniwersalność*], no, mi, ye,
+    no, [*Inicjalizacja*], no, ye, no,
+    mi, [*Wydajność*], mi, mi, ye,
+    no, [*Stabilność*], no, mi, ye,
+    ye, [*Debugowanie*], no, mi, ye,
+    ye, [*Dashboard (GUI)*], ye, mi, mi,
+    no, [*Podsumowanie*], [*2.5* / 10], [*6* / 10], [*8* / 10],
+    [*5* / 10],
   ),
 )
 
@@ -135,7 +135,18 @@ Poniżej znajduje się podsumowanie wszystkich wykonanych przez nas eksperyment�
 
 == Podsumowanie
 
-SQL spoko, mapreduce nie spoko
+W trakcie realizacji projektu w ramach kursu Przetwarzanie Dużych Zbiorów Danych mieliśmy okazję zapoznać się z czterema technologiami: MapReduce, Hive, Spark oraz Pig. Każda z nich reprezentuje nieco inne podejście do przetwarzania danych - od niskopoziomowego MapReduce, przez deklaratywne Hive i Pig, aż po uniwersalnego i nowoczesnego Sparka.
 
-// TODO: opisać jakie technologie w sumie są fajne a jakie nie, co się udało a co nie, jakie są wnioski, zwyzywać hjben
-// @Kuba
+Na podstawie przeprowadzonych eksperymentów oraz własnych doświadczeń doszliśmy do kilku wniosków:
+
+- Największą satysfakcję i najmniejsze problemy przyniosła nam praca z Apache Spark. Technologia ta jest szybka, elastyczna, dobrze udokumentowana i wspiera wiele języków programowania (m.in. Pythona, Scalę, SQL). Dzięki wysokiemu poziomowi abstrakcji pozwalała skupić się na logice przetwarzania danych, a nie na szczegółach implementacyjnych.
+
+- Hive okazał się przyzwoitym kompromisem - choć jego silnik (w naszym przypadku MapReduce) nie należy do najwydajniejszych, to sama praca z SQL-owym interfejsem była stosunkowo wygodna i intuicyjna.
+
+- MapReduce był zdecydowanie najtrudniejszy w obsłudze. Wymagał pisania dużych ilości kodu, ręcznego zarządzania etapami przetwarzania, a także był najmniej stabilny i najsłabiej udokumentowany spośród wszystkich testowanych technologii.
+
+- Pig, choć nieco lepszy od MapReduce, również nie spełnił naszych oczekiwań. Jego składnia była nieintuicyjna, a wydajność pozostawiała wiele do życzenia.
+
+Mimo trudności, udało nam się zrealizować większość zaplanowanych etapów i przygotować działające rozwiązania w różnych technologiach. Projekt pozwolił nam lepiej zrozumieć, jakie są ograniczenia i zalety klasycznych narzędzi Hadoopowych oraz jakie korzyści przynosi przejście na nowsze rozwiązania, takie jak Spark.
+
+Naszym zdaniem, przyszłość przetwarzania danych zdecydowanie należy do rozwiązań takich jak Spark - nowoczesnych, elastycznych i wydajnych. Starsze technologie, mimo że wciąż używane w niektórych środowiskach, nie oferują już konkurencyjnej wygody ani wydajności.
