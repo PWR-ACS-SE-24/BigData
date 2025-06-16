@@ -31,10 +31,10 @@ Tabela poniżej przedstawia, jakie etapy zostały zrealizowane w jakiej technolo
     table.header(
       table.cell(rowspan: 2)[*Etap*],
       table.cell(colspan: 4)[*Technologia*],
-      [*MapReduce* \ #image("./img/mapreduce.png", height: 25pt)],
-      [*Hive* \ #image("./img/hive.png", height: 25pt)],
-      [*Spark* \ #image("./img/spark.png", height: 25pt)],
-      [*Pig* \ #image("./img/pig.png", height: 25pt)],
+      [*MapReduce* \ #image("./img/mapreduce.png", height: 22pt)],
+      [*Hive* \ #image("./img/hive.png", height: 22pt)],
+      [*Spark* \ #image("./img/spark.png", height: 22pt)],
+      [*Pig* \ #image("./img/pig.png", height: 22pt)],
     ),
 
     [`charts_fmt`], g[✔], r[✕], r[✕], r[✕],
@@ -52,14 +52,42 @@ Tabela poniżej przedstawia, jakie etapy zostały zrealizowane w jakiej technolo
   ),
 )
 
-
-// TODO: ta taka mapka diagram etapów wszystkich (bez kolorków), tabelka z checkmarkami/iksami jakie etapy w czym zrobione
-// @Kuba
-
 == Porównanie wydajności
 
-// TODO: tabelka łącząca wszystkie wyniki (jedna kolumna na technologię, jeden wiersz na etap, większość komórek pusta)
-// @Tomek
+Poniżej przedstawiono wydajność poszczególnych technologii w kontekście różnych procesów przetwarzania. Wszystkie dane zapisano w sekundach oraz w przypadku wielu pomiarów w danej technologii (np. Spark DataFrames vs SQL) wybrano zawsze lepszy wynik.
+
+#let na = text(fill: rgb("#00000066"))[---]
+#align(
+  center,
+  table(
+    align: center + horizon,
+    columns: (auto, 80pt, 80pt, 80pt, 80pt),
+    table.header(
+      table.cell(rowspan: 2)[*Etap*],
+      table.cell(colspan: 4)[*Technologia*],
+      [*MapReduce* \ #image("./img/mapreduce.png", height: 22pt)],
+      [*Hive* \ #image("./img/hive.png", height: 22pt)],
+      [*Spark* \ #image("./img/spark.png", height: 22pt)],
+      [*Pig* \ #image("./img/pig.png", height: 22pt)],
+    ),
+    [`charts_fmt`], [42.010], na, na, na,
+    [`charts_artists`], na, na, [6.589], na,
+    [`charts_genres`], na, na, [7.288], na,
+    [`charts_daily_genres`], na, na, [18.915], na,
+    [`charts_daily_sum`], [27.605], na, na, na,
+    [`charts_yearly_stats`], na, [35.961], na, na,
+    [`charts_genre_popularity`], na, na, [3.381], na,
+    [`charts_daily_popularity`], na, [16.424], na, na,
+    [`output`], na, na, [6.235], na,
+    [`daily_country_weather`], [39.923], [41.711], [5.935], [85.355],
+    [`wdi_normalized`], na, [35.547], na, na,
+    [`wdi_interpolated`], na, [25.698], na, na,
+  ),
+)
+
+#pagebreak()
+
+// TODO @Tomek: wnioski
 
 == Porównanie doświadczeń deweloperskich
 
