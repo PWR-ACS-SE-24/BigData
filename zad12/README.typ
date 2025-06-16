@@ -9,12 +9,12 @@
 
 #let g(body) = text(fill: rgb("#58cf39"))[#body]
 #let r(body) = text(fill: rgb("#FF4136"))[#body]
-#let ye = g[✔]
-#let no = r[✕]
+#let ye = g[*✔*]
+#let no = r[*✕*]
 #let na = text(fill: rgb("#00000066"))[---]
-#let mi = text(fill: rgb("#FF851B"))[~]
-#let tech_header = table.header(
-  table.cell(rowspan: 2)[*Etap*],
+#let mi = box(text(fill: rgb("#ff851b"))[#scale(150%)[*\~*]])
+#let tech_header(head: "Etap") = table.header(
+  table.cell(rowspan: 2)[*#head*],
   table.cell(colspan: 4)[*Technologia*],
   [*MapReduce* \ #image("./img/mapreduce.png", height: 22pt)],
   [*Hive* \ #image("./img/hive.png", height: 22pt)],
@@ -42,7 +42,7 @@ Tabela poniżej przedstawia, jakie etapy zostały zrealizowane w jakiej technolo
   table(
     align: center + horizon,
     columns: (auto, 80pt, 80pt, 80pt, 80pt),
-    tech_header,
+    tech_header(),
     [`charts_fmt`], ye, no, no, no,
     [`charts_artists`], no, no, ye, no,
     [`charts_genres`], no, no, ye, no,
@@ -67,7 +67,7 @@ Poniżej przedstawiono wydajność poszczególnych technologii w kontekście ró
   table(
     align: center + horizon,
     columns: (auto, 80pt, 80pt, 80pt, 80pt),
-    tech_header,
+    tech_header(),
     [`charts_fmt`], [42.010], na, na, na,
     [`charts_artists`], na, na, [6.589], na,
     [`charts_genres`], na, na, [7.288], na,
@@ -89,12 +89,46 @@ Niestety, tylko jeden z naszych etapów został zaimplementowany we wszystkich t
 
 == Porównanie doświadczeń deweloperskich
 
-Aby ocenić subiektywne doświadczenia dotyczące pracy z poszczególnymi technologiami, dokonaliśmy porównania na podstawie kilku kryteriów
+Aby ocenić subiektywne doświadczenia dotyczące pracy z poszczególnymi technologiami, dokonaliśmy porównania na podstawie kilku aspektów. Pod względem każdego kryterium nadajemy oceny w~skali 0 (#no), ½ (#mi), 1 (#ye). Oczywiście doświadczenia niesposób ocenić w sposób obiektywny, jednakze aby uzyskać bardziej miarodajne wyniki, zebraliśmy wyniki od wszystkich członków zespołu. Analizowane przez nas aspekty to:
+- *Instalacja* -- jak łatwa jest instalacja,
+- *Konfiguracja* -- jak łatwa jest początkowa konfiguracja i zmiana parametrów,
+- *Dokumentacja* -- czy i jakiej jakości dokumentacja jest dostępna,
+- *Interfejs (API)* -- czy łatwo jest pisać kod w danej technologii,
+- *Uniwersalność* -- czy dana technologia pozwala na realizację dowolnego etapu,
+- *Inicjalizacja* -- jak długo trwa uruchomienie środowiska,
+- *Wydajność* -- jak szybko wykonują się poszczególne zadania (patrz: wcześniejsza sekcja),
+- *Stabilność* -- jak często technologia zatrzymuje się lub pokazuje błędy bez powodu,
+- *Debugowanie* -- czy łatwo jest zinterpretować błędy i debugować kod rozwiązania,
+- *Dashboard (GUI)* -- czy i jakiej jakości jest dostępny graficzny pulpit nawigacyjny.
+
+#align(
+  center,
+  table(
+    align: center + horizon,
+    columns: (auto, 80pt, 80pt, 80pt, 80pt),
+    tech_header(head: "Aspekt"),
+    [*Instalacja*], mi, no, ye, ye,
+    [*Konfiguracja*], mi, ye, mi, ye,
+    [*Dokumentacja*], no, mi, ye, no,
+    [*Interfejs (API)*], no, ye, ye, mi,
+    [*Uniwersalność*], no, mi, ye, no,
+    [*Inicjalizacja*], no, ye, no, mi,
+    [*Wydajność*], mi, mi, ye, no,
+    [*Stabilność*], no, mi, ye, ye,
+    [*Debugowanie*], no, mi, ye, ye,
+    [*Dashboard (GUI)*], ye, mi, mi, no,
+    [*Podsumowanie*], [*2.5* / 10], [*6* / 10], [*8* / 10], [*5* / 10],
+  ),
+)
+
+Sumarycznie, najlepszy okazał się Spark, następnie Hive, Pig i MapReduce. Zgadza się to też z~naszymi odczuciami, ponieważ zdecydowanie najgorzej pracowało nam się z MapReduce, a najlepiej z Spark. Technologia MapReduce korzysta z niewygodnego i słabo udokumentowanego API, które wymaga pisania dużej ilości kodu, podziału procesów na wiele zadań, a ponadto często zawieszało się (a~czasami wręcz cały system) bez oczywistego powodu. Natomiast Spark zezwala na pisanie kodu w Scali, Pythonie oraz SQL, jest uniwersalny i naszym zdaniem najszybszy spośród przetestowanych.
 
 // TODO: trudność instalacji/konfiguracji, wygoda "pisania" kodu (jaki język, itd.), napotkane błędy (nie szanujemy parquet)
 // @Tomek
 
 == Przeprowadzone eksperymenty
+
+Poniżej znajduje się podsumowanie wszystkich wykonanych przez nas eksperymentów.
 
 // TODO: przekopiować z poprzednich etapów wszystkie tabelki z eksperymentami + jeden paragraf
 // @Kamila
