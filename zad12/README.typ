@@ -247,6 +247,8 @@ Poniżej znajduje się podsumowanie wszystkich wykonanych przez nas eksperyment�
   [*Suma*], [49.202], [48.343], [48.816],
 ))
 
+#pagebreak()
+
 ==== Wpływ limitu rozgłoszenia (`sql.autoBroadcastJoinThreshold`)
 
 #align(center, table(
@@ -294,13 +296,13 @@ Poniżej znajduje się podsumowanie wszystkich wykonanych przez nas eksperyment�
 
 == Podsumowanie
 
-W trakcie realizacji projektu w ramach kursu Przetwarzanie Dużych Zbiorów Danych mieliśmy okazję zapoznać się z czterema technologiami: MapReduce, Hive, Spark oraz Pig. Każda z nich reprezentuje nieco inne podejście do przetwarzania danych - od niskopoziomowego MapReduce, przez deklaratywne Hive i Pig, aż po uniwersalnego i nowoczesnego Sparka.
+W trakcie realizacji projektu w ramach kursu Przetwarzanie Dużych Zbiorów Danych mieliśmy okazję zapoznać się z czterema technologiami: MapReduce, Hive, Spark oraz Pig. Każda z nich reprezentuje nieco inne podejście do przetwarzania danych -- od niskopoziomowego MapReduce, przez deklaratywne Hive i Pig, aż po uniwersalnego i nowoczesnego Sparka.
 
 Na podstawie przeprowadzonych eksperymentów oraz własnych doświadczeń doszliśmy do kilku wniosków:
 
 - Największą satysfakcję i najmniejsze problemy przyniosła nam praca z Apache Spark. Technologia ta jest szybka, elastyczna, dobrze udokumentowana i wspiera wiele języków programowania (m.in. Pythona, Scalę, SQL). Dzięki wysokiemu poziomowi abstrakcji pozwalała skupić się na logice przetwarzania danych, a nie na szczegółach implementacyjnych.
 
-- Hive okazał się przyzwoitym kompromisem - choć jego silnik (w naszym przypadku MapReduce) nie należy do najwydajniejszych, to sama praca z SQL-owym interfejsem była stosunkowo wygodna i intuicyjna.
+- Hive okazał się przyzwoitym kompromisem -- choć jego silnik (w naszym przypadku MapReduce) nie należy do najwydajniejszych, to sama praca z SQL-owym interfejsem była stosunkowo wygodna i intuicyjna.
 
 - MapReduce był zdecydowanie najtrudniejszy w obsłudze. Wymagał pisania dużych ilości kodu, ręcznego zarządzania etapami przetwarzania, a także był najmniej stabilny i najsłabiej udokumentowany spośród wszystkich testowanych technologii.
 
@@ -308,4 +310,4 @@ Na podstawie przeprowadzonych eksperymentów oraz własnych doświadczeń doszli
 
 Mimo trudności, udało nam się zrealizować większość zaplanowanych etapów i przygotować działające rozwiązania w różnych technologiach. Projekt pozwolił nam lepiej zrozumieć, jakie są ograniczenia i zalety klasycznych narzędzi Hadoopowych oraz jakie korzyści przynosi przejście na nowsze rozwiązania, takie jak Spark.
 
-Naszym zdaniem, przyszłość przetwarzania danych zdecydowanie należy do rozwiązań takich jak Spark - nowoczesnych, elastycznych i wydajnych. Starsze technologie, mimo że wciąż używane w niektórych środowiskach, nie oferują już konkurencyjnej wygody ani wydajności.
+Naszym zdaniem, przyszłość przetwarzania danych zdecydowanie należy do rozwiązań takich jak Spark -- nowoczesnych, elastycznych i wydajnych. Starsze technologie, mimo że wciąż używane w~niektórych środowiskach, nie oferują już konkurencyjnej wygody ani wydajności.
